@@ -18,8 +18,12 @@ namespace CustomUI.BeatSaber
         #region Button Extensions
         public static void SetButtonText(this Button _button, string _text)
         {
-            if (_button.GetComponentInChildren<TextMeshProUGUI>() != null)
-                _button.GetComponentInChildren<TextMeshProUGUI>().text = _text;
+            Polyglot.LocalizedTextMeshProUGUI localizer = _button.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer != null)
+                GameObject.Destroy(localizer);
+            TextMeshProUGUI tmpUgui = _button.GetComponentInChildren<TextMeshProUGUI>();
+            if (tmpUgui != null)
+                tmpUgui.text = _text;
         }
 
         public static void SetButtonTextSize(this Button _button, float _fontSize)
