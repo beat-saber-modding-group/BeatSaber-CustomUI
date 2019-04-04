@@ -283,20 +283,28 @@ namespace CustomUI.Settings
             }
             Action<FinishAction> del = null;
             needsInit.Add(obj as CustomSetting);
-            del = delegate (FinishAction finishAction){
-                if (obj is CustomSetting)
+            del = delegate (FinishAction finishAction)
+            {
+                try
                 {
-                    CustomSetting customSetting = (obj as CustomSetting);
-                    if (finishAction == FinishAction.Apply || finishAction == FinishAction.Ok)
+                    if (obj is CustomSetting)
                     {
-                        customSetting.ApplySettings();
+                        CustomSetting customSetting = (obj as CustomSetting);
+                        if (finishAction == FinishAction.Apply || finishAction == FinishAction.Ok)
+                        {
+                            customSetting.ApplySettings();
+                        }
+                        if (finishAction == FinishAction.Cancel)
+                        {
+                            customSetting.CancelSettings();
+                        }
                     }
-                    if (finishAction == FinishAction.Cancel)
-                    {
-                        customSetting.CancelSettings();
-                    }
-                    navInstance.didFinishEvent -= del;
                 }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[SettingsUI] Crash when trying to apply or cancel settings UI! Exception: {ex.ToString()}");
+                }
+                navInstance.didFinishEvent -= del;
             };
             navInstance.didFinishEvent += del;
         }
