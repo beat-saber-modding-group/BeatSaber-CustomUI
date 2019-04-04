@@ -87,7 +87,13 @@ namespace CustomUI.Settings
             //Init settings
             foreach (CustomSetting customSetting in SubMenu.needsInit)
             {
-                customSetting.Init();
+                try
+                {
+                    customSetting.Init();
+                } catch (Exception ex)
+                {
+                    Console.WriteLine($"[SettingsUI] Crash when trying to initialize settings UI! Exception: {ex.ToString()}");
+                }
             }
             SubMenu.needsInit.Clear();
         }

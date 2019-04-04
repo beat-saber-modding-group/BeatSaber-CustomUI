@@ -68,8 +68,8 @@ namespace CustomUI.Settings
 
         public void Init()
         {
-            if (GetInitValue()) IncButtonPressed();
-            else DecButtonPressed();
+            OnEnable();
+            OnDisable();
         }
     }
 
@@ -230,7 +230,8 @@ namespace CustomUI.Settings
 
         public void Init()
         {
-            GetInitValues(out int idx,out int numEl);
+            OnEnable();
+            OnDisable();
         }
     }
 
@@ -253,7 +254,6 @@ namespace CustomUI.Settings
             numberOfElements = values.Count();
             var value = GetValue();
             idx = values.FindIndex(v => v == value);
-            lastidx = idx;
             if (idx == -1)
                 idx = 0;
         }
@@ -295,8 +295,8 @@ namespace CustomUI.Settings
 
         public void Init()
         {
-            GetInitValues(out int idx, out int numEl);
             OnEnable();
+            OnDisable();
         }
     }
 
@@ -341,7 +341,8 @@ namespace CustomUI.Settings
 
         public void Init()
         {
-            GetInitValues(out int idx, out int numEl);
+            OnEnable();
+            OnDisable();
         }
     }
 
