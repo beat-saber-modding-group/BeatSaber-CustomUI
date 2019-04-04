@@ -307,7 +307,7 @@ namespace CustomUI.GameplaySettings
 
         public override void Instantiate()
         {
-            var volumeSettings = Resources.FindObjectsOfTypeAll<ListSettingsController>().FirstOrDefault();
+            var volumeSettings = Resources.FindObjectsOfTypeAll<FormattedFloatListSettingsController>().FirstOrDefault();
             gameObject = UnityEngine.Object.Instantiate(volumeSettings.gameObject, Container);
             gameObject.name = optionName;
             gameObject.GetComponentInChildren<TMP_Text>().text = optionName;
@@ -334,7 +334,7 @@ namespace CustomUI.GameplaySettings
                 return "UNKNOWN";
             };
             //Initialize the controller, as if we had just opened the settings menu
-            //multiSelectController.Init(); TODO figure out if replacement necessary
+            multiSelectController.Init();
             var value = multiSelectController.gameObject.transform.Find("Value");
             var valueText = value.Find("ValueText");
             TMP_Text valueTextObject = valueText.GetComponent<TMP_Text>();
