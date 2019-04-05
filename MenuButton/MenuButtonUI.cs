@@ -7,9 +7,9 @@ using CustomUI.Utilities;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using IllusionPlugin;
 using System.Linq;
 using VRUI;
+using IPA.Config;
 
 namespace CustomUI.MenuButton
 {
