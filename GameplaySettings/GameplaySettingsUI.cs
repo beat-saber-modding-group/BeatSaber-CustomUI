@@ -169,7 +169,7 @@ namespace CustomUI.GameplaySettings
         {
             if (submenuName == "MainMenu") return;
             if (_backButton == null)
-                _backButton = UIUtilities.LoadSpriteFromResources("BeatSaberCustomUI.Resources.Back Button.png");
+                _backButton = UIUtilities.LoadSpriteFromResources("CustomUI.Resources.Back Button.png");
             CreateSubmenuOption(panel, "Back", submenuName, "!PREVIOUSMENU!", String.Empty, _backButton);
         }
 

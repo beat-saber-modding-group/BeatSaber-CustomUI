@@ -39,7 +39,7 @@ namespace CustomUI.Utilities
             get
             {
                 if (!_editIcon)
-                    _editIcon = LoadSpriteFromResources("BeatSaberCustomUI.Resources.Edit Icon.png");
+                    _editIcon = LoadSpriteFromResources("CustomUI.Resources.Edit Icon.png");
                 return _editIcon;
             }
         }
@@ -50,7 +50,7 @@ namespace CustomUI.Utilities
             get
             {
                 if (!_colorPickerBase)
-                    _colorPickerBase = LoadSpriteFromResources("BeatSaberCustomUI.Resources.Color Picker Base.png");
+                    _colorPickerBase = LoadSpriteFromResources("CustomUI.Resources.Color Picker Base.png");
                 return _colorPickerBase;
             }
         }
@@ -61,7 +61,7 @@ namespace CustomUI.Utilities
             get
             {
                 if (!_roundedRectangle)
-                    _roundedRectangle = LoadSpriteFromResources("BeatSaberCustomUI.Resources.RoundedRectangle.png");
+                    _roundedRectangle = LoadSpriteFromResources("CustomUI.Resources.RoundedRectangle.png");
                 return _roundedRectangle;
             }
         }
