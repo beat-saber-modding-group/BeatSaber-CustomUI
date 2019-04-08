@@ -146,7 +146,7 @@ namespace CustomUI.BeatSaber
         [Obsolete("Use the GetTableCell function with no row param")]
         public LevelListTableCell GetTableCell(int row, bool beatmapCharacteristicImages = false)
         {
-            return GetTableCell(0, beatmapCharacteristicImages);
+            return GetTableCell(beatmapCharacteristicImages);
         }
 
         /// <summary>
