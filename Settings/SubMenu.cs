@@ -277,7 +277,7 @@ namespace CustomUI.Settings
             return newColorPickerSettingsController;
         }
 
-        public SubMenu AddSubMenu(string text, string hintText, SubMenu subMenu = null)
+        public SubMenu AddSubMenu(string text, string hintText, SubMenu subMenu)
         {
             return AddSubMenu_Internal(text, hintText, false, subMenu);
         }
@@ -372,7 +372,8 @@ namespace CustomUI.Settings
                 {
                     Plugin.Log(ex.ToString(), IPA.Logging.Logger.Level.Error);
                 }
-                navInstance.didFinishEvent -= del;
+                if(finishAction != FinishAction.Cancel)
+                    navInstance.didFinishEvent -= del;
             };
             navInstance.didFinishEvent += del;
         }

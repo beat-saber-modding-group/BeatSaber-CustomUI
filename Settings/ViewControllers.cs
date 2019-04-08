@@ -68,6 +68,8 @@ namespace CustomUI.Settings
 
         public void CancelSettings()
         {
+            if (GetValue != null)
+                lastValue = GetValue();
         }
 
         protected override string TextForValue(bool value)
@@ -99,7 +101,7 @@ namespace CustomUI.Settings
         
         public void Init()
         {
-            _value = this.GetInitValue();
+            _value = GetInitValue();
             RefreshUI();
             IsInitialized = true;
         }
@@ -110,7 +112,7 @@ namespace CustomUI.Settings
 
         public void CancelSettings()
         {
-
+            _value = GetInitValue();
         }
 
         private void RefreshUI()
@@ -244,7 +246,8 @@ namespace CustomUI.Settings
 
         public void CancelSettings()
         {
-
+            value = GetValue();
+            Plugin.Log($"Value: {value}");
         }
 
         public void Init()
@@ -312,7 +315,8 @@ namespace CustomUI.Settings
 
         public void CancelSettings()
         {
-
+            GetInitValues(out var idx, out var numElems);
+            lastidx = idx;
         }
 
         public void Init()
@@ -361,7 +365,8 @@ namespace CustomUI.Settings
 
         public void CancelSettings()
         {
-
+            GetInitValues(out var idx, out var numElems);
+            lastidx = idx;
         }
 
         public void Init()
@@ -458,7 +463,8 @@ namespace CustomUI.Settings
 
         public void CancelSettings()
         {
-
+            lastVal = GetInitValue();
+            _sliderInst.Scrollbar.value = _sliderInst.GetPercentageFromValue(lastVal);
         }
     }
 
@@ -495,7 +501,7 @@ namespace CustomUI.Settings
 
         public void CancelSettings()
         {
-
+            _ColorPickerPreviewClickableInst.ImagePreview.color = GetInitValue();
         }
 
         public void SetPreviewInstance(ColorPickerPreviewClickable instance)

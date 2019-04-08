@@ -149,7 +149,10 @@ namespace CustomUI.Settings
             (_submenuOptions[row].transform as RectTransform).anchoredPosition = new Vector2(_settingsViewControllerWidth/2, _rowHeight / 2);
             (_submenuOptions[row].transform as RectTransform).sizeDelta = cellSize;
             _submenuOptions[row].transform.SetParent(container, false);
-            
+
+            _tableCell.reuseIdentifier = "CustomUISettingsTableCell";
+
+
             return _tableCell;
         }
     }
