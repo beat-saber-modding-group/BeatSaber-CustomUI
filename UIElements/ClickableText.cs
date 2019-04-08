@@ -14,23 +14,23 @@ namespace CustomUI.UIElements
     {
         public Color highlightColor = Color.cyan;
         public Color defaultColor = Color.white;
-        public Action OnClickEvent, PointerEnterEvent, PointerExitEvent;
+        public Action<PointerEventData> OnClickEvent, PointerEnterEvent, PointerExitEvent;
         public void OnPointerClick(PointerEventData eventData)
         {
             color = defaultColor;
-            OnClickEvent?.Invoke();
+            OnClickEvent?.Invoke(eventData);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             color = highlightColor;
-            PointerEnterEvent?.Invoke();
+            PointerEnterEvent?.Invoke(eventData);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             color = defaultColor;
-            PointerExitEvent?.Invoke();
+            PointerExitEvent?.Invoke(eventData);
         }
     }
 }
