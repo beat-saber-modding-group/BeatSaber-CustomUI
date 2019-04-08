@@ -277,7 +277,12 @@ namespace CustomUI.Settings
             return newColorPickerSettingsController;
         }
 
-        public SubMenu AddSubMenu(string text, string hintText, SubMenu subMenu = null) 
+        public SubMenu AddSubMenu(string text, string hintText)
+        {
+            return AddSubMenu_Internal(text, hintText, null);
+        }
+
+        private SubMenu AddSubMenu_Internal(string text, string hintText, SubMenu subMenu = null) 
         {
             if (viewController == null)
                 throw new Exception("You cannot add a submenu using this method outside of the settings menu.");
@@ -289,7 +294,7 @@ namespace CustomUI.Settings
                 {
                     subMenu = SettingsUI.CreateSubMenu(text, false);
                     _subSubMenus[text] = subMenu;
-                    subMenu.AddSubMenu("Back", "Go back to the previous menu", this);
+                    subMenu.AddSubMenu_Internal("Back", "Go back to the previous menu", this);
                 }
             }
 
