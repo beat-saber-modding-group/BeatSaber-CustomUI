@@ -20,7 +20,7 @@ namespace CustomUI.UIElements
             ImagePreview = gameObject.AddComponent<HMUI.Image>();
             if (ImagePreview != null)
             {
-                ImagePreview.material = Instantiate(Resources.FindObjectsOfTypeAll<Material>().Where(m => m.name == "UINoGlow").FirstOrDefault());
+                ImagePreview.material = Instantiate(UIUtilities.NoGlowMaterial);
                 ImagePreview.sprite = UIUtilities.RoundedRectangle;
             } else
                 Console.WriteLine("[BeatSaberCustomUI.ColorPickerPreview]: The '_Image' instance was null.");

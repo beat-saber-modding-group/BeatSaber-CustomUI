@@ -91,6 +91,7 @@
     <Compile Include="BeatSaber\CustomFlowCoordinator.cs" />
     <Compile Include="BeatSaber\CustomListViewController.cs" />
     <Compile Include="BeatSaber\CustomMenu.cs" />
+    <Compile Include="UIElements\ClickableText.cs" />
     <Compile Include="BeatSaber\CustomUIKeyboard.cs" />
     <Compile Include="BeatSaber\CustomViewController.cs" />
     <Compile Include="GameplaySettings\GameplaySettingsTypes.cs" />
