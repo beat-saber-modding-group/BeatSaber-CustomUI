@@ -34,7 +34,6 @@ namespace CustomUI
 
         public void OnApplicationStart()
         {
-            Logger.log.Debug("OnApplicationStart");
             // Disable stack traces for log and warning type log messages, as they just result in tons of useless spam
             Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
             Application.SetStackTraceLogType(LogType.Warning, StackTraceLogType.None);
@@ -45,7 +44,6 @@ namespace CustomUI
 
         public void OnApplicationQuit()
         {
-            Logger.log.Debug("OnApplicationQuit");
             _harmonyInstance.UnpatchAll("com.brian91292.beatsaber.customui");
         }
 
@@ -74,12 +72,11 @@ namespace CustomUI
 
         }
 
-        public static void Log(string text,
-                       [CallerFilePath] string file = "",
-                       [CallerMemberName] string member = "",
-                       [CallerLineNumber] int line = 0)
+        public static void Log(string text, IPALogger.Level level = IPALogger.Level.Info, [CallerFilePath] string file = "",
+               [CallerMemberName] string member = "",
+               [CallerLineNumber] int line = 0)
         {
-            Console.WriteLine($"[CustomUI] {Path.GetFileName(file)}->{member}({line}): {text}");
+            Logger.log.Log(level, $"{Path.GetFileName(file)}->{member}({line}): {text}");
         }
     }
 }
