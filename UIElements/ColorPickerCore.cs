@@ -28,7 +28,7 @@ namespace CustomUI.UIElements
             _Image = gameObject.AddComponent<HMUI.Image>();
             if (_Image != null)
             {
-                _Image.material = new Material(UIUtilities.NoGlowMaterial);
+                _Image.material = Instantiate(UIUtilities.NoGlowMaterial);
                 _Image.sprite = UIUtilities.ColorPickerBase;
                 _Image.sprite.texture.wrapMode = TextureWrapMode.Clamp;
                 _Image.material.SetTexture("_MainTex", _Image.sprite.texture);
