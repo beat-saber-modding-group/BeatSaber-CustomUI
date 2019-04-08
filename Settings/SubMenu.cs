@@ -318,7 +318,7 @@ namespace CustomUI.Settings
             clickableText.rectTransform.anchorMax = new Vector2(0f, -3);
             //clickableText.rectTransform.anchoredPosition = new Vector2(0f, -1f);
 
-            clickableText.OnClickEvent += () => {
+            clickableText.OnClickEvent += (eventData) => {
                 var settingsFlowCoordinator = Resources.FindObjectsOfTypeAll<SettingsFlowCoordinator>().FirstOrDefault();
                 if (settingsFlowCoordinator) {
                     var navigationController = settingsFlowCoordinator.GetPrivateField<SettingsNavigationController>("_settingsNavigationController");
