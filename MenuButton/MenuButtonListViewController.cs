@@ -55,7 +55,7 @@ namespace CustomUI.MenuButton
             }
             catch (Exception e)
             {
-                Console.WriteLine("EXCEPTION IN MenuButtonListViewController.DidActivate: " + e);
+                Plugin.Log(e.ToString(), IPA.Logging.Logger.Level.Error);
             }
             base.DidActivate(firstActivation, type);
 

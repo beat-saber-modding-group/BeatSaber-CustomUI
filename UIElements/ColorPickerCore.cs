@@ -32,9 +32,7 @@ namespace CustomUI.UIElements
                 _Image.sprite = UIUtilities.ColorPickerBase;
                 _Image.sprite.texture.wrapMode = TextureWrapMode.Clamp;
                 _Image.material.SetTexture("_MainTex", _Image.sprite.texture);
-            } else
-                Console.WriteLine("[BeatSaberCustomUI.ColorPickerCore]: The '_Image' instance was null.");
-            //Console.WriteLine("[BeatSaberCustomUI.ColorPickerCore]: ColorPickerCore initialized.");
+            }
         }
 
         private void Update()

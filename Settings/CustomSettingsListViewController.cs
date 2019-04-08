@@ -110,7 +110,7 @@ namespace CustomUI.Settings
             }
             catch (Exception e)
             {
-                Console.WriteLine("EXCEPTION IN CustomSettingsListViewController.DidActivate: " + e);
+                Plugin.Log(e.ToString(), IPA.Logging.Logger.Level.Error);
             }
         }
 

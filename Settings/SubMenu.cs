@@ -370,7 +370,7 @@ namespace CustomUI.Settings
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[SettingsUI] Crash when trying to apply or cancel settings UI! Exception: {ex.ToString()}");
+                    Plugin.Log(ex.ToString(), IPA.Logging.Logger.Level.Error);
                 }
                 navInstance.didFinishEvent -= del;
             };

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-namespace BeatSaberCustomUI
+namespace CustomUI
 {
     [HarmonyPatch(typeof(SceneManager))]
     [HarmonyPatch("Internal_SceneLoaded", MethodType.Normal)]
@@ -21,7 +21,7 @@ namespace BeatSaberCustomUI
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    Plugin.Log(ex.ToString(), IPA.Logging.Logger.Level.Error);
                 }
             }
             return false;
@@ -43,7 +43,7 @@ namespace BeatSaberCustomUI
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    Plugin.Log(ex.ToString(), IPA.Logging.Logger.Level.Error);
                 }
             }
             return false;
@@ -65,7 +65,7 @@ namespace BeatSaberCustomUI
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    Plugin.Log(ex.ToString(), IPA.Logging.Logger.Level.Error);
                 }
             }
             return false;

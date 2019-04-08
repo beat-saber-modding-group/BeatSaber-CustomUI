@@ -113,7 +113,7 @@ namespace CustomUI.BeatSaber
             }
             catch (Exception e)
             {
-                Console.WriteLine("EXCEPTION IN CustomListViewController.DidActivate: " + e);
+                Plugin.Log(e.ToString(), IPA.Logging.Logger.Level.Error);
             }
         }
 

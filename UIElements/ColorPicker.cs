@@ -38,8 +38,7 @@ namespace CustomUI.UIElements
                 previewText.enableWordWrapping = false;
                 previewText.rectTransform.position = ColorPickerPreview.transform.TransformPoint(new Vector3(-previewText.preferredWidth * 1.5f - 2f, 2.5f, 0));
             }
-            else
-                Console.WriteLine("[BeatSaberCustomUI.ColorPicker]: The 'ColorPickerPreview' instance was null.");
+
             //ColorPickerCore initialization
             ColorPickerCore = new GameObject("ColorPickerCore").AddComponent<ColorPickerCore>();
             if (ColorPickerCore != null)
@@ -50,9 +49,7 @@ namespace CustomUI.UIElements
                 (ColorPickerCore.transform as RectTransform).sizeDelta = new Vector2(60, 60);
                 (ColorPickerCore.transform as RectTransform).localPosition = new Vector3(0, 15f);
             }
-            else
-                Console.WriteLine("[BeatSaberCustomUI.ColorPicker]: The 'ColorPickerCore' instance was null.");
-            
+
             var previewImg = ColorPickerPreview.ImagePreview;
             _sliderR = BeatSaberUI.CreateUISlider(transform, 0, 3000, 1, true, (val) =>
             {
