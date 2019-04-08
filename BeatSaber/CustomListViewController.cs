@@ -13,13 +13,44 @@ namespace CustomUI.BeatSaber
 {
     public class CustomListViewController : CustomViewController, TableView.IDataSource
     {
+        /// <summary>
+        /// Whether or not to include a back button when the ViewController is activated.
+        /// </summary>
         public bool includePageButtons = true;
+
+        /// <summary>
+        /// A reference to the page up button, if it exists.
+        /// </summary>
         public Button _pageUpButton;
+
+        /// <summary>
+        /// A reference to the page down button, if it exists.
+        /// </summary>
         public Button _pageDownButton;
+
+        /// <summary>
+        /// The TableView associated with the current CustomListViewController.
+        /// </summary>
         public TableView _customListTableView;
+
+        /// <summary>
+        /// The data to be displayed in the table.
+        /// </summary>
         public List<CustomCellInfo> Data = new List<CustomCellInfo>();
+
+        /// <summary>
+        /// An event fired when the user selects a cell in the TableView.
+        /// </summary>
         public Action<TableView, int> DidSelectRowEvent;
+
+        /// <summary>
+        /// The reuse identifier, which is used to recycle cells instead of instantiating new instances of them.
+        /// </summary>
         public string reuseIdentifier = "CustomUIListTableCell";
+
+        /// <summary>
+        /// The prefab used to instantiate new table cells.
+        /// </summary>
         private LevelListTableCell _songListTableCellInstance;
 
         protected override void DidActivate(bool firstActivation, ActivationType type)
@@ -95,7 +126,7 @@ namespace CustomUI.BeatSaber
         {
             DidSelectRowEvent?.Invoke(arg1, arg2);
         }
-
+        
         public virtual float CellSize()
         {
             return 10f;
@@ -105,8 +136,25 @@ namespace CustomUI.BeatSaber
         {
             return Data.Count;
         }
-        
+
+        /// <summary>
+        /// Instantiates a new LevelListTableCell (or recycles an old one).
+        /// </summary>
+        /// <param name="row">This param does nothing, and was left in by mistake.</param>
+        /// <param name="beatmapCharacteristicImages">If set to false, the BeatmapCharacteristicImages will be destroyed.</param>
+        /// <returns></returns>
+        [Obsolete("Use the GetTableCell function with no row param")]
         public LevelListTableCell GetTableCell(int row, bool beatmapCharacteristicImages = false)
+        {
+            return GetTableCell(0, beatmapCharacteristicImages);
+        }
+
+        /// <summary>
+        /// Instantiates a new LevelListTableCell (or recycles an old one).
+        /// </summary>
+        /// <param name="beatmapCharacteristicImages">If set to false, the BeatmapCharacteristicImages will be destroyed.</param>
+        /// <returns></returns>
+        public LevelListTableCell GetTableCell(bool beatmapCharacteristicImages = false)
         {
             LevelListTableCell _tableCell = (LevelListTableCell)_customListTableView.DequeueReusableCellForIdentifier(reuseIdentifier);
             if (!_tableCell)
@@ -125,7 +173,7 @@ namespace CustomUI.BeatSaber
 
         public virtual TableCell CellForIdx(int idx)
         {
-            LevelListTableCell _tableCell = GetTableCell(idx);
+            LevelListTableCell _tableCell = GetTableCell();
 
             _tableCell.SetText(Data[idx].text);
             _tableCell.SetSubText(Data[idx].subtext);

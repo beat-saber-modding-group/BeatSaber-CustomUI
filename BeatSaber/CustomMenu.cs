@@ -22,21 +22,41 @@ namespace CustomUI.BeatSaber
         }
 
         public string title;
-        public CustomFlowCoordinator customFlowCoordinator
-        {
-            get { return _masterFlowCoordinator as CustomFlowCoordinator; }
-            private set { _masterFlowCoordinator = value; }
-        }
-        public CustomViewController mainViewController = null;
-        public CustomViewController leftViewController = null;
-        public CustomViewController rightViewController = null;
-        public CustomViewController bottomViewController = null;
+        /// <summary>
+        /// The CustomFlowCoordinator associated with this CustomMenu. This will not be populated if you have no main CustomViewController.
+        /// </summary>
+        public CustomFlowCoordinator customFlowCoordinator { get; private set; }
 
-        private FlowCoordinator _masterFlowCoordinator;
+        /// <summary>
+        /// The main CustomViewController associated with this menu.
+        /// </summary>
+        public CustomViewController mainViewController = null;
+
+        /// <summary>
+        /// The left CustomViewController associated with this menu.
+        /// </summary>
+        public CustomViewController leftViewController = null;
+
+        /// <summary>
+        /// The right CustomViewController associated with this menu.
+        /// </summary>
+        public CustomViewController rightViewController = null;
+
+        /// <summary>
+        /// The bottom CustomViewController associated with this menu.
+        /// </summary>
+        public CustomViewController bottomViewController = null;
+        
         private Action<bool> _dismissCustom = null;
         private Dictionary<ViewControllerPosition, List<VRUIViewController>> _viewControllerStacks = new Dictionary<ViewControllerPosition, List<VRUIViewController>>();
 
-
+        /// <summary>
+        /// Sets up the main CustomViewController.
+        /// </summary>
+        /// <param name="viewController">The viewcontroller to set.</param>
+        /// <param name="includeBackButton">Whether or not to generate a back button.</param>
+        /// <param name="DidActivate">Optional, a callback when the ViewController becomes active (when you open it).</param>
+        /// <param name="DidDeactivate">Optional, a callback when the ViewController becomes inactive (when you close it).</param>
         public void SetMainViewController(CustomViewController viewController, bool includeBackButton, Action<bool, VRUIViewController.ActivationType> DidActivate = null, Action<VRUIViewController.DeactivationType> DidDeactivate = null)
         {
             mainViewController = viewController;
@@ -47,6 +67,13 @@ namespace CustomUI.BeatSaber
                 mainViewController.DidDeactivateEvent += DidDeactivate;
         }
 
+        /// <summary>
+        /// Sets up the left CustomViewController.
+        /// </summary>
+        /// <param name="viewController">The viewcontroller to set.</param>
+        /// <param name="includeBackButton">Whether or not to generate a back button.</param>
+        /// <param name="DidActivate">Optional, a callback when the ViewController becomes active (when you open it).</param>
+        /// <param name="DidDeactivate">Optional, a callback when the ViewController becomes inactive (when you close it).</param>
         public void SetLeftViewController(CustomViewController viewController, bool includeBackButton, Action<bool, VRUIViewController.ActivationType> DidActivate = null, Action<VRUIViewController.DeactivationType> DidDeactivate = null)
         {
             leftViewController = viewController;
@@ -57,6 +84,13 @@ namespace CustomUI.BeatSaber
                 leftViewController.DidDeactivateEvent += DidDeactivate;
         }
 
+        /// <summary>
+        /// Sets up the right CustomViewController.
+        /// </summary>
+        /// <param name="viewController">The viewcontroller to set.</param>
+        /// <param name="includeBackButton">Whether or not to generate a back button.</param>
+        /// <param name="DidActivate">Optional, a callback when the ViewController becomes active (when you open it).</param>
+        /// <param name="DidDeactivate">Optional, a callback when the ViewController becomes inactive (when you close it).</param>
         public void SetRightViewController(CustomViewController viewController, bool includeBackButton, Action<bool, VRUIViewController.ActivationType> DidActivate = null, Action<VRUIViewController.DeactivationType> DidDeactivate = null)
         {
             rightViewController = viewController;
@@ -67,6 +101,13 @@ namespace CustomUI.BeatSaber
                 rightViewController.DidDeactivateEvent += DidDeactivate;
         }
 
+        /// <summary>
+        /// Sets up the bottom CustomViewController.
+        /// </summary>
+        /// <param name="viewController">The viewcontroller to set.</param>
+        /// <param name="includeBackButton">Whether or not to generate a back button.</param>
+        /// <param name="DidActivate">Optional, a callback when the ViewController becomes active (when you open it).</param>
+        /// <param name="DidDeactivate">Optional, a callback when the ViewController becomes inactive (when you close it).</param>
         public void SetBottomViewController(CustomViewController viewController, bool includeBackButton, Action<bool, VRUIViewController.ActivationType> DidActivate = null, Action<VRUIViewController.DeactivationType> DidDeactivate = null)
         {
             bottomViewController = viewController;
@@ -77,6 +118,11 @@ namespace CustomUI.BeatSaber
                 bottomViewController.DidDeactivateEvent += DidDeactivate;
         }
 
+        /// <summary>
+        /// Opens the menu.
+        /// </summary>
+        /// <param name="immediately">If set to true, no animation will be shown and the transition will be instant.</param>
+        /// <returns></returns>
         public bool Present(bool immediately = false)
         {
             var _activeFlowCoordinator = GetActiveFlowCoordinator();
@@ -103,20 +149,30 @@ namespace CustomUI.BeatSaber
                     SetScreen(_activeFlowCoordinator, rightViewController, _activeFlowCoordinator.rightScreenViewController, ViewControllerPosition.Right, immediately);
                 if(bottomViewController)
                     SetScreen(_activeFlowCoordinator, bottomViewController, _activeFlowCoordinator.bottomScreenViewController, ViewControllerPosition.Bottom, immediately);
-                _masterFlowCoordinator = _activeFlowCoordinator;
             }
             return true;
         }
 
+        /// <summary>
+        /// Opens the menu with an animation.
+        /// </summary>
         public void Present()
         {
             Present(false);
         }
 
+        /// <summary>
+        /// Closes the menu.
+        /// </summary>
+        /// <param name="immediately">If set to true, no animation will be shown and the transition will be instant.</param>
         public void Dismiss(bool immediately = false)
         {
             _dismissCustom?.Invoke(immediately);
         }
+
+        /// <summary>
+        /// Closes the menu with an animation.
+        /// </summary>
         public void Dismiss()
         {
             Dismiss(false);
