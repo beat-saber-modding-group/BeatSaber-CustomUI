@@ -14,6 +14,13 @@ namespace CustomUI.BeatSaber
 {
     public class CustomMenu : MonoBehaviour
     {
+        private enum ViewControllerPosition
+        {
+            Left,
+            Right,
+            Bottom
+        }
+
         public string title;
         public CustomFlowCoordinator customFlowCoordinator
         {
@@ -23,11 +30,11 @@ namespace CustomUI.BeatSaber
         public CustomViewController mainViewController = null;
         public CustomViewController leftViewController = null;
         public CustomViewController rightViewController = null;
+        public CustomViewController bottomViewController = null;
 
         private FlowCoordinator _masterFlowCoordinator;
         private Action<bool> _dismissCustom = null;
-        private List<VRUIViewController> _rightViewControllerStack = new List<VRUIViewController>();
-        private List<VRUIViewController> _leftViewControllerStack = new List<VRUIViewController>();
+        private Dictionary<ViewControllerPosition, List<VRUIViewController>> _viewControllerStacks = new Dictionary<ViewControllerPosition, List<VRUIViewController>>();
 
 
         public void SetMainViewController(CustomViewController viewController, bool includeBackButton, Action<bool, VRUIViewController.ActivationType> DidActivate = null, Action<VRUIViewController.DeactivationType> DidDeactivate = null)
@@ -59,7 +66,17 @@ namespace CustomUI.BeatSaber
             if (DidDeactivate != null)
                 rightViewController.DidDeactivateEvent += DidDeactivate;
         }
-        
+
+        public void SetBottomViewController(CustomViewController viewController, bool includeBackButton, Action<bool, VRUIViewController.ActivationType> DidActivate = null, Action<VRUIViewController.DeactivationType> DidDeactivate = null)
+        {
+            bottomViewController = viewController;
+            bottomViewController.includeBackButton = includeBackButton;
+            if (DidActivate != null)
+                bottomViewController.DidActivateEvent += DidActivate;
+            if (DidDeactivate != null)
+                bottomViewController.DidDeactivateEvent += DidDeactivate;
+        }
+
         public bool Present(bool immediately = false)
         {
             var _activeFlowCoordinator = GetActiveFlowCoordinator();
@@ -81,14 +98,16 @@ namespace CustomUI.BeatSaber
             {
                 _dismissCustom = null;
                 if (leftViewController)
-                    SetScreen(_activeFlowCoordinator, leftViewController, _activeFlowCoordinator.leftScreenViewController, false, immediately);
-
+                    SetScreen(_activeFlowCoordinator, leftViewController, _activeFlowCoordinator.leftScreenViewController, ViewControllerPosition.Left, immediately);
                 if (rightViewController)
-                    SetScreen(_activeFlowCoordinator, rightViewController, _activeFlowCoordinator.rightScreenViewController, true, immediately);
+                    SetScreen(_activeFlowCoordinator, rightViewController, _activeFlowCoordinator.rightScreenViewController, ViewControllerPosition.Right, immediately);
+                if(bottomViewController)
+                    SetScreen(_activeFlowCoordinator, bottomViewController, _activeFlowCoordinator.bottomScreenViewController, ViewControllerPosition.Bottom, immediately);
                 _masterFlowCoordinator = _activeFlowCoordinator;
             }
             return true;
         }
+
         public void Present()
         {
             Present(false);
@@ -116,40 +135,49 @@ namespace CustomUI.BeatSaber
             return null;
         }
 
-        private VRUIViewController PopViewControllerStack(bool right)
+        private VRUIViewController PopViewControllerStack(ViewControllerPosition pos)
         {
-            if (right)
-            {
-                var viewController = _rightViewControllerStack.Last();
-                _rightViewControllerStack.Remove(viewController);
-                return viewController;
-            }
-            else
-            {
-                var viewController = _leftViewControllerStack.Last();
-                _leftViewControllerStack.Remove(viewController);
-                return viewController;
-            }   
+            VRUIViewController viewController = _viewControllerStacks[pos].Last();
+            _viewControllerStacks[pos].Remove(viewController);
+            return viewController; 
         }
 
-        private void SetScreen(FlowCoordinator _activeFlowCoordinator, CustomViewController newViewController, VRUIViewController origViewController, bool right, bool immediately)
+        private void SetViewController(FlowCoordinator flowCoordinator, VRUIViewController viewController, ViewControllerPosition pos, bool immediate)
         {
-            string method = right ? "SetRightScreenViewController" : "SetLeftScreenViewController";
-            Action<bool> backAction = (immediate) => { _activeFlowCoordinator.InvokePrivateMethod(method, new object[] { PopViewControllerStack(right), immediate }); };
+            string method = string.Empty;
+            switch(pos)
+            {
+                case ViewControllerPosition.Left:
+                    method = "SetLeftScreenViewController";
+                    break;
+                case ViewControllerPosition.Right:
+                    method = "SetRightScreenViewController";
+                    break;
+                case ViewControllerPosition.Bottom:
+                    method = "SetBottomScreenViewController";
+                    break;
+                default:
+                    return;
+            }
+            flowCoordinator.InvokePrivateMethod(method, new object[] { viewController, immediate });
+        }
+
+        private void SetScreen(FlowCoordinator _activeFlowCoordinator, CustomViewController newViewController, VRUIViewController origViewController, ViewControllerPosition pos, bool immediately)
+        {
+            Action<bool> backAction = (immediate) => SetViewController(_activeFlowCoordinator, PopViewControllerStack(pos), pos, immediate);
             _dismissCustom += backAction;  // custom back button behavior
             if (!newViewController.isActivated)
             {
-                if (right)
-                    _rightViewControllerStack.Add(origViewController);
-                else
-                    _leftViewControllerStack.Add(origViewController);
+                if (!_viewControllerStacks.ContainsKey(pos))
+                    _viewControllerStacks[pos] = new List<VRUIViewController>();
 
+                _viewControllerStacks[pos].Add(origViewController);
                 if (newViewController.includeBackButton)
                 {
                     newViewController.ClearBackButtonCallbacks();
                     newViewController.backButtonPressed += () => { backAction.Invoke(false); }; // default back button behavior
                 }
-                _activeFlowCoordinator.InvokePrivateMethod(method, new object[] { newViewController, immediately });
+                SetViewController(_activeFlowCoordinator, newViewController, pos, immediately);
             }
         }
     }

@@ -15,21 +15,18 @@ namespace CustomUI.BeatSaber
 
         protected override void DidActivate(bool firstActivation, ActivationType activationType)
         {
-            if (customPanel.mainViewController)
-                customPanel.mainViewController.backButtonPressed += Dismiss;
-
-            if (customPanel.leftViewController)
-                customPanel.leftViewController.backButtonPressed += Dismiss;
-
-            if (customPanel.rightViewController)
-                customPanel.rightViewController.backButtonPressed += Dismiss;
-
+            // Set the panel title
             title = customPanel.title;
 
+            // Setup all our back button callbacks
+            if (customPanel.mainViewController) customPanel.mainViewController.backButtonPressed += Dismiss;
+            if (customPanel.leftViewController) customPanel.leftViewController.backButtonPressed += Dismiss;
+            if (customPanel.rightViewController) customPanel.rightViewController.backButtonPressed += Dismiss;
+            if (customPanel.bottomViewController) customPanel.bottomViewController.backButtonPressed += Dismiss;
+
+            // Provide all our viewcontrollers as initial viewcontrollers when our FlowCoordinator is added to the sene hierarchy
             if (activationType == FlowCoordinator.ActivationType.AddedToHierarchy)
-            {
-                ProvideInitialViewControllers(customPanel.mainViewController, customPanel.leftViewController, customPanel.rightViewController);
-            }
+                ProvideInitialViewControllers(customPanel.mainViewController, customPanel.leftViewController, customPanel.rightViewController, customPanel.bottomViewController);
         }
 
         protected override void DidDeactivate(DeactivationType deactivationType)
