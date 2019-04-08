@@ -138,7 +138,9 @@ namespace CustomUI.Settings
         public override TableCell CellForIdx(int row)
         {
             Vector2 cellSize = new Vector2(_settingsViewControllerWidth - _settingsViewControllerPadding*2, _rowHeight);
-            TableCell _tableCell = Instantiate(_settingsTableCellInstance);
+            TableCell _tableCell = _customListTableView.DequeueReusableCellForIdentifier("CustomUISettingsTableCell");
+            if(!_tableCell)
+                _tableCell = Instantiate(_settingsTableCellInstance);
             
             RectTransform container = new GameObject("container", typeof(RectTransform)).GetComponent<RectTransform>();
             container.SetParent(_tableCell.transform);
@@ -147,8 +149,6 @@ namespace CustomUI.Settings
             (_submenuOptions[row].transform as RectTransform).anchoredPosition = new Vector2(_settingsViewControllerWidth/2, _rowHeight / 2);
             (_submenuOptions[row].transform as RectTransform).sizeDelta = cellSize;
             _submenuOptions[row].transform.SetParent(container, false);
-            
-            _tableCell.reuseIdentifier = "CustomUISettingsTableCell";
             
             return _tableCell;
         }

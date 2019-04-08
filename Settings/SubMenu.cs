@@ -20,6 +20,7 @@ namespace CustomUI.Settings
         public static SettingsNavigationController navInstance;
         public Transform transform;
         public CustomSettingsListViewController viewController;
+        private Dictionary<string, SubMenu> _subSubMenus = new Dictionary<string, SubMenu>();
 
         public SubMenu(CustomSettingsListViewController viewController)
         {
@@ -82,7 +83,7 @@ namespace CustomUI.Settings
             view.SetValues(color);
             return view;
         }
-
+        
         public T AddListSetting<T>(string name) where T : ListSettingsController
         {
             return AddListSetting<T>(name, "");
@@ -275,6 +276,55 @@ namespace CustomUI.Settings
             AddHooks(newColorPickerSettingsController);
             return newColorPickerSettingsController;
         }
+
+        public SubMenu AddSubMenu(string text, string hintText, SubMenu subMenu = null) 
+        {
+            if (viewController == null)
+                throw new Exception("You cannot add a submenu using this method outside of the settings menu.");
+            
+            if (subMenu == null)
+            {
+                _subSubMenus.TryGetValue(text, out subMenu);
+                if (subMenu == null)
+                {
+                    subMenu = SettingsUI.CreateSubMenu(text, false);
+                    _subSubMenus[text] = subMenu;
+                    subMenu.AddSubMenu("Back", "Go back to the previous menu", this);
+                }
+            }
+
+            GameObject gameObj = new GameObject("CustomUIText");
+            gameObj.SetActive(false);
+
+            ClickableText clickableText = gameObj.AddComponent<ClickableText>();
+            clickableText.font = GameObject.Instantiate(Resources.FindObjectsOfTypeAll<TMP_FontAsset>().First(t => t.name == "Teko-Medium SDF No Glow"));
+            clickableText.rectTransform.SetParent(transform, false);
+            clickableText.text = text;
+            clickableText.fontSize = 5;
+            clickableText.color = Color.white;
+
+            clickableText.rectTransform.anchorMin = new Vector2(0f, -3);
+            clickableText.rectTransform.anchorMax = new Vector2(0f, -3);
+            //clickableText.rectTransform.anchoredPosition = new Vector2(0f, -1f);
+
+            clickableText.OnClickEvent += () => {
+                var settingsFlowCoordinator = Resources.FindObjectsOfTypeAll<SettingsFlowCoordinator>().FirstOrDefault();
+                if (settingsFlowCoordinator) {
+                    var navigationController = settingsFlowCoordinator.GetPrivateField<SettingsNavigationController>("_settingsNavigationController");
+                    settingsFlowCoordinator.InvokePrivateMethod("PopViewControllerFromNavigationController", new object[] { navigationController, null, true });
+                    settingsFlowCoordinator.InvokePrivateMethod("PushViewControllerToNavigationController", new object[] { navigationController, subMenu.viewController, null, true });
+                }
+            };
+
+            gameObj.SetActive(true);
+            
+            if (hintText != String.Empty)
+                BeatSaberUI.AddHintText(clickableText.rectTransform, hintText);
+
+            viewController?.AddSubmenuOption(clickableText.gameObject);
+            return subMenu;
+        }
+
         private void AddHooks(object obj)
         {
             if (navInstance == null)
@@ -290,13 +340,20 @@ namespace CustomUI.Settings
                     if (obj is CustomSetting)
                     {
                         CustomSetting customSetting = (obj as CustomSetting);
-                        if (finishAction == FinishAction.Apply || finishAction == FinishAction.Ok)
+
+                        // Only call our apply/cancel callbacks if the setting was properly initialized
+                        if (customSetting.IsInitialized)
                         {
-                            customSetting.ApplySettings();
-                        }
-                        if (finishAction == FinishAction.Cancel)
-                        {
-                            customSetting.CancelSettings();
+                            switch (finishAction)
+                            {
+                                case FinishAction.Apply:
+                                case FinishAction.Ok:
+                                    customSetting.ApplySettings();
+                                    break;
+                                case FinishAction.Cancel:
+                                    customSetting.CancelSettings();
+                                    break;
+                            }
                         }
                     }
                 }

@@ -17,6 +17,16 @@ namespace CustomUI.Settings
         void ApplySettings();
 
         void CancelSettings();
+
+        bool IsInitialized { get; set; }
+    }
+
+    public class SubMenuSettingsController : CustomSetting
+    {
+        public bool IsInitialized { get; set; } = false;
+        public void ApplySettings() { }
+        public void CancelSettings() { }
+        public void Init() { }
     }
 
     public class BoolViewController : SwitchSettingsController, CustomSetting
@@ -30,6 +40,8 @@ namespace CustomUI.Settings
         public string EnabledText = "ON";
         public string DisabledText = "OFF";
         public bool applyImmediately = false;
+
+        public bool IsInitialized { get; set; } = false;
 
         bool lastValue;
 
@@ -51,10 +63,7 @@ namespace CustomUI.Settings
 
         public void ApplySettings()
         {
-            if (SetValue != null)
-            {
-                SetValue(lastValue);
-            }
+            SetValue?.Invoke(lastValue);
         }
 
         public void CancelSettings()
@@ -70,6 +79,7 @@ namespace CustomUI.Settings
         {
             OnEnable();
             OnDisable();
+            IsInitialized = true;
         }
     }
 
@@ -81,6 +91,8 @@ namespace CustomUI.Settings
         protected int _increment = 1;
         public bool applyImmediately = false;
 
+        public bool IsInitialized { get; set; } = false;
+
         protected abstract int GetInitValue();
         protected abstract void ApplyValue(int value);
         protected abstract string TextForValue(int value);
@@ -88,35 +100,40 @@ namespace CustomUI.Settings
         public void Init()
         {
             _value = this.GetInitValue();
-            this.RefreshUI();
+            RefreshUI();
+            IsInitialized = true;
         }
         public void ApplySettings()
         {
-            this.ApplyValue(this._value);
+            ApplyValue(_value);
         }
+
         public void CancelSettings()
         {
 
         }
+
         private void RefreshUI()
         {
-            this.text = this.TextForValue(this._value);
-            this.enableDec = _value > _min;
-            this.enableInc = _value < _max;
+            text = this.TextForValue(this._value);
+            enableDec = _value > _min;
+            enableInc = _value < _max;
         }
+
         public override void IncButtonPressed()
         {
-            this._value += _increment;
-            if (this._value > _max) this._value = _max;
-            this.RefreshUI();
+            _value += _increment;
+            if (_value > _max) _value = _max;
+            RefreshUI();
             if (applyImmediately)
                 ApplySettings();
         }
+
         public override void DecButtonPressed()
         {
-            this._value -= _increment;
-            if (this._value < _min) this._value = _min;
-            this.RefreshUI();
+            _value -= _increment;
+            if (_value < _min) _value = _min;
+            RefreshUI();
             if (applyImmediately)
                 ApplySettings();
         }
@@ -184,6 +201,8 @@ namespace CustomUI.Settings
         public string value = String.Empty;
         public bool applyImmediately = false;
 
+        public bool IsInitialized { get; set; } = false;
+
         private bool _hasInited;
 
         protected override void GetInitValues(out int idx, out int numberOfElements)
@@ -232,6 +251,7 @@ namespace CustomUI.Settings
         {
             OnEnable();
             OnDisable();
+            IsInitialized = true;
         }
     }
 
@@ -246,6 +266,8 @@ namespace CustomUI.Settings
 
         public List<float> values = new List<float>();
         public bool applyImmediately = false;
+
+        public bool IsInitialized { get; set; } = false;
 
         int lastidx;
 
@@ -297,6 +319,7 @@ namespace CustomUI.Settings
         {
             OnEnable();
             OnDisable();
+            IsInitialized = true;
         }
     }
 
@@ -307,6 +330,8 @@ namespace CustomUI.Settings
         public Func<T, string> GetTextForValue = (_) => "?";
 
         public List<T> values;
+
+        public bool IsInitialized { get; set; } = false;
 
         int lastidx;
         
@@ -343,6 +368,7 @@ namespace CustomUI.Settings
         {
             OnEnable();
             OnDisable();
+            IsInitialized = true;
         }
     }
 
@@ -361,6 +387,8 @@ namespace CustomUI.Settings
         private CustomSlider _sliderInst;
         private TMPro.TextMeshProUGUI _textInst;
 
+        public bool IsInitialized { get; set; } = false;
+
         private float lastVal;
 
         public void Init()
@@ -376,12 +404,12 @@ namespace CustomUI.Settings
                 RefreshUI();
             });
             RefreshUI();
+            IsInitialized = true;
         }
 
         public void ApplySettings()
         {
-            if (SetValue != null)
-                SetValue((_intValues) ? ((float)Math.Floor(lastVal)) : (lastVal));
+            SetValue?.Invoke((_intValues) ? ((float)Math.Floor(lastVal)) : (lastVal));
         }
 
         private void RefreshUI()
@@ -433,6 +461,7 @@ namespace CustomUI.Settings
 
         }
     }
+
     public class ColorPickerViewController : MonoBehaviour, CustomSetting
     {
         public delegate Color GetColor();
@@ -442,9 +471,13 @@ namespace CustomUI.Settings
         public event SetColor SetValue;
 
         private ColorPickerPreviewClickable _ColorPickerPreviewClickableInst;
+
+        public bool IsInitialized { get; set; } = false;
+
         public void Init()
         {
             _ColorPickerPreviewClickableInst.ImagePreview.color = GetInitValue();
+            IsInitialized = true;
         }
 
         protected Color GetInitValue()

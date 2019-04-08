@@ -177,6 +177,11 @@ namespace CustomUI.Settings
 
         public static SubMenu CreateSubMenu(string name)
         {
+            return CreateSubMenu(name, true);
+        }
+
+        public static SubMenu CreateSubMenu(string name, bool showInList)
+        {
             lock(Instance) {
                 Instance.SetupUI();
 
@@ -188,19 +193,22 @@ namespace CustomUI.Settings
                 var customSettingsViewController = subMenuGameObject.AddComponent<CustomSettingsListViewController>();
                 customSettingsViewController.name = name.Replace(" ", "");
                 customSettingsViewController.includePageButtons = false;
+
+                if (showInList)
+                {
+                    var newSubMenuInfo = new SettingsSubMenuInfo();
+                    newSubMenuInfo.SetPrivateField("_menuName", name);
+                    newSubMenuInfo.SetPrivateField("_viewController", customSettingsViewController);
+
+                    var subMenuInfos = Instance.mainSettingsMenu.GetPrivateField<SettingsSubMenuInfo[]>("_settingsSubMenuInfos").ToList();
+                    subMenuInfos.Add(newSubMenuInfo);
+                    Instance.mainSettingsMenu.SetPrivateField("_settingsSubMenuInfos", subMenuInfos.ToArray());
+                    //Instance._mainSettingsTableView.SetPrivateField("_settingsSubMenuInfos", subMenuInfos.ToArray());
+
+                    if (subMenuInfos.Count > 6)
+                        Instance.AddPageButtons();
+                }
                 
-                var newSubMenuInfo = new SettingsSubMenuInfo();
-                newSubMenuInfo.SetPrivateField("_menuName", name);
-                newSubMenuInfo.SetPrivateField("_viewController", customSettingsViewController);
-
-                var subMenuInfos = Instance.mainSettingsMenu.GetPrivateField<SettingsSubMenuInfo[]>("_settingsSubMenuInfos").ToList();
-                subMenuInfos.Add(newSubMenuInfo);
-                Instance.mainSettingsMenu.SetPrivateField("_settingsSubMenuInfos", subMenuInfos.ToArray());
-                //Instance._mainSettingsTableView.SetPrivateField("_settingsSubMenuInfos", subMenuInfos.ToArray());
-
-                if (subMenuInfos.Count > 6)
-                    Instance.AddPageButtons();
-
                 SubMenu menu = new SubMenu(customSettingsViewController);
                 return menu;
             }
