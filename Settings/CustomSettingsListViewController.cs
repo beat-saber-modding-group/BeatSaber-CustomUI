@@ -141,18 +141,22 @@ namespace CustomUI.Settings
             TableCell _tableCell = _customListTableView.DequeueReusableCellForIdentifier("CustomUISettingsTableCell");
             if(!_tableCell)
                 _tableCell = Instantiate(_settingsTableCellInstance);
-            
-            RectTransform container = new GameObject("container", typeof(RectTransform)).GetComponent<RectTransform>();
-            container.SetParent(_tableCell.transform);
-            container.sizeDelta = cellSize;
+
+            RectTransform container = _tableCell.transform.Find("SettingContainer") as RectTransform;
+            if (container == null)
+            {
+                Plugin.Log("Null container!");
+                container = new GameObject("SettingContainer", typeof(RectTransform)).GetComponent<RectTransform>();
+                container.SetParent(_tableCell.transform);
+                container.sizeDelta = cellSize;
+            }
             
             (_submenuOptions[row].transform as RectTransform).anchoredPosition = new Vector2(_settingsViewControllerWidth/2, _rowHeight / 2);
             (_submenuOptions[row].transform as RectTransform).sizeDelta = cellSize;
             _submenuOptions[row].transform.SetParent(container, false);
 
             _tableCell.reuseIdentifier = "CustomUISettingsTableCell";
-
-
+            
             return _tableCell;
         }
     }

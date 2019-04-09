@@ -247,7 +247,6 @@ namespace CustomUI.Settings
         public void CancelSettings()
         {
             value = GetValue();
-            Plugin.Log($"Value: {value}");
         }
 
         public void Init()
