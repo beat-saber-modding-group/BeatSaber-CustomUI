@@ -45,6 +45,12 @@ namespace CustomUI.Settings
 
         bool lastValue;
 
+        protected override void OnEnable()
+        {
+            if (IsInitialized)
+                base.OnEnable();
+        }
+
         protected override bool GetInitValue()
         {
             bool value = false;
@@ -79,9 +85,9 @@ namespace CustomUI.Settings
 
         public void Init()
         {
-            OnEnable();
             OnDisable();
             IsInitialized = true;
+            OnEnable();
         }
     }
 
@@ -207,6 +213,12 @@ namespace CustomUI.Settings
 
         private bool _hasInited;
 
+        protected override void OnEnable()
+        {
+            if (IsInitialized)
+                base.OnEnable();
+        }
+
         protected override void GetInitValues(out int idx, out int numberOfElements)
         {
             numberOfElements = 2;
@@ -251,9 +263,9 @@ namespace CustomUI.Settings
 
         public void Init()
         {
-            OnEnable();
             OnDisable();
             IsInitialized = true;
+            OnEnable();
         }
     }
 
@@ -272,6 +284,12 @@ namespace CustomUI.Settings
         public bool IsInitialized { get; set; } = false;
 
         int lastidx;
+
+        protected override void OnEnable()
+        {
+            if (IsInitialized)
+                base.OnEnable();
+        }
 
         protected override void GetInitValues(out int idx, out int numberOfElements)
         {
@@ -320,9 +338,9 @@ namespace CustomUI.Settings
 
         public void Init()
         {
-            OnEnable();
             OnDisable();
             IsInitialized = true;
+            OnEnable();
         }
     }
 
@@ -337,7 +355,13 @@ namespace CustomUI.Settings
         public bool IsInitialized { get; set; } = false;
 
         int lastidx;
-        
+
+        protected override void OnEnable()
+        {
+            if (IsInitialized)
+                base.OnEnable();
+        }
+
         protected override void GetInitValues(out int idx, out int numberOfElements)
         {
             numberOfElements = values.Count;
@@ -370,9 +394,9 @@ namespace CustomUI.Settings
 
         public void Init()
         {
-            OnEnable();
             OnDisable();
             IsInitialized = true;
+            OnEnable();
         }
     }
 

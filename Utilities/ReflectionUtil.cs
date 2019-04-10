@@ -137,7 +137,7 @@ namespace CustomUI.Utilities
         }
 
         //(Created by taz?) Copies a component to a destination object, keeping all its field values?
-        public static Behaviour CopyComponent(Behaviour original, Type originalType, Type overridingType, GameObject destination)
+        public static Behaviour CopyComponent(Behaviour original, Type originalType, Type overridingType, GameObject destination, bool toggleEnabled = true)
         {
             Behaviour copy = null;
 
@@ -149,8 +149,9 @@ namespace CustomUI.Utilities
             {
 
             }
-
-            copy.enabled = false;
+            
+            if (toggleEnabled)
+                copy.enabled = false;
 
             //Copy types of super classes as well as our class
             Type type = originalType;
@@ -160,7 +161,9 @@ namespace CustomUI.Utilities
                 type = type.BaseType;
             }
 
-            copy.enabled = true;
+            if (toggleEnabled)
+                copy.enabled = true;
+
             return copy;
         }
 
