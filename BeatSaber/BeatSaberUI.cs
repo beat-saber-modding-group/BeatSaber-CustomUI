@@ -1,5 +1,6 @@
 ﻿using CustomUI.UIElements;
 using CustomUI.Utilities;
+using HMUI;
 using System;
 using System.Linq;
 using TMPro;
@@ -391,6 +392,79 @@ namespace CustomUI.BeatSaber
             colorPicker.transform.localPosition = new Vector3(anchoredPosition.x, anchoredPosition.y);
 
             return colorPicker;
+        }
+
+        /// <summary>
+        /// Creates a custom TextSegmentedControl component.
+        /// </summary>
+        /// <param name="parent">Thet transform to parent the new TextSegmentedControl component to.</param>
+        /// <param name="anchoredPosition">The position the TextSegmentedControl component should be anchored to.</param>
+        /// <param name="sizeDelta">The size of the TextSegmentedControl component RectTransform.</param>
+        /// <param name="onValueChanged">Callback when the user clicks on one of the segments.</param>
+        /// <param name="fontSize">Size of text in segments.</param>
+        /// <param name="padding">Size of padding in segments.</param>
+        /// <returns>The newly created TextSegmentedControl component.</returns>
+        public static TextSegmentedControl CreateTextSegmentedControl(RectTransform parent, Vector2 anchoredPosition, Vector2 sizeDelta, UnityAction<int> onValueChanged = null, float fontSize = 4f, float padding = 8f)
+        {
+            var segmentedControl = new GameObject("CustomTextSegmentedControl", typeof(RectTransform)).AddComponent<TextSegmentedControl>();
+            segmentedControl.gameObject.AddComponent<HorizontalLayoutGroup>();
+
+            TextSegmentedControlCellNew[] _segments = Resources.FindObjectsOfTypeAll<TextSegmentedControlCellNew>();
+
+            segmentedControl.SetPrivateField("_singleCellPrefab", _segments.First(x => x.name == "HSingleTextSegmentedControlCell"));
+            segmentedControl.SetPrivateField("_firstCellPrefab", _segments.First(x => x.name == "LeftTextSegmentedControlCell"));
+            segmentedControl.SetPrivateField("_middleCellPrefab", _segments.First(x => x.name == "HMiddleTextSegmentedControlCell"));
+            segmentedControl.SetPrivateField("_lastCellPrefab", _segments.First(x => x.name == "RightTextSegmentedControlCell"));
+
+            segmentedControl.SetPrivateField("_container", Resources.FindObjectsOfTypeAll<TextSegmentedControl>().Select(x => x.GetPrivateField<object>("_container")).First(x => x != null));
+
+            segmentedControl.transform.SetParent(parent, false);
+            (segmentedControl.transform as RectTransform).anchorMax = new Vector2(0.5f, 0.5f);
+            (segmentedControl.transform as RectTransform).anchorMin = new Vector2(0.5f, 0.5f);
+            (segmentedControl.transform as RectTransform).anchoredPosition = anchoredPosition;
+            (segmentedControl.transform as RectTransform).sizeDelta = sizeDelta;
+
+            segmentedControl.SetPrivateField("_fontSize", 4f);
+            segmentedControl.SetPrivateField("_padding", 8f);
+
+            if (onValueChanged != null)
+                segmentedControl.didSelectCellEvent += (sender, index) => { onValueChanged(index); };
+
+            return segmentedControl;
+        }
+
+        /// <summary>
+        /// Creates a custom IconSegmentedControl component.
+        /// </summary>
+        /// <param name="parent">Thet transform to parent the new IconSegmentedControl component to.</param>
+        /// <param name="anchoredPosition">The position the IconSegmentedControl component should be anchored to.</param>
+        /// <param name="sizeDelta">The size of the IconSegmentedControl component RectTransform.</param>
+        /// <param name="onValueChanged">Callback when the user clicks on one of the segments.</param>
+        /// <returns>The newly created IconSegmentedControl component.</returns>
+        public static IconSegmentedControl CreateIconSegmentedControl(RectTransform parent, Vector2 anchoredPosition, Vector2 sizeDelta, UnityAction<int> onValueChanged = null)
+        {
+            var segmentedControl = new GameObject("CustomIconSegmentedControl", typeof(RectTransform)).AddComponent<IconSegmentedControl>();
+            segmentedControl.gameObject.AddComponent<HorizontalLayoutGroup>();
+
+            IconSegmentedControlCell[] _segments = Resources.FindObjectsOfTypeAll<IconSegmentedControlCell>();
+
+            segmentedControl.SetPrivateField("_singleCellPrefab", _segments.First(x => x.name == "SingleIconSegmentedControlCell"));
+            segmentedControl.SetPrivateField("_firstCellPrefab", _segments.First(x => x.name == "LeftIconSegmentedControlCell"));
+            segmentedControl.SetPrivateField("_middleCellPrefab", _segments.First(x => x.name == "HMiddleIconSegmentedControlCell"));
+            segmentedControl.SetPrivateField("_lastCellPrefab", _segments.First(x => x.name == "RightIconSegmentedControlCell"));
+
+            segmentedControl.SetPrivateField("_container", Resources.FindObjectsOfTypeAll<IconSegmentedControl>().Select(x => x.GetPrivateField<object>("_container")).First(x => x != null));
+
+            segmentedControl.transform.SetParent(parent, false);
+            (segmentedControl.transform as RectTransform).anchorMax = new Vector2(0.5f, 0.5f);
+            (segmentedControl.transform as RectTransform).anchorMin = new Vector2(0.5f, 0.5f);
+            (segmentedControl.transform as RectTransform).anchoredPosition = anchoredPosition;
+            (segmentedControl.transform as RectTransform).sizeDelta = sizeDelta;
+
+            if (onValueChanged != null)
+                segmentedControl.didSelectCellEvent += (sender, index) => { onValueChanged(index); };
+
+            return segmentedControl;
         }
     }
 }

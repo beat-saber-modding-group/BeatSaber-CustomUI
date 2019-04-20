@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using TMPro;
+using HMUI;
 
 namespace CustomUI.Settings
 {
@@ -511,6 +512,84 @@ namespace CustomUI.Settings
         public void SetValues(Color color)
         {
             _ColorPickerPreviewClickableInst.ImagePreview.color = color;
+        }
+    }
+
+    public class SegmentedControlViewController : ListSettingsController, CustomSetting
+    {
+        public delegate int GetInt();
+        public event GetInt GetValue;
+
+        public delegate void SetInt(int value);
+        public event SetInt SetValue;
+
+        public SegmentedControl segmentedControl;
+
+        public bool IsInitialized { get; set; } = false;
+
+
+        private int lastVal;
+
+        public void Init()
+        {
+            segmentedControl.SelectCellWithNumber(GetInitValue());
+            lastVal = GetInitValue();
+
+            segmentedControl.didSelectCellEvent += (sender, idx) => {
+                ApplyValue(idx);
+            };
+
+            IsInitialized = true;
+        }
+
+        public void ApplySettings()
+        {
+            SetValue?.Invoke(lastVal);
+        }
+
+        public override void IncButtonPressed()
+        {
+
+        }
+
+        public override void DecButtonPressed()
+        {
+
+        }
+
+        protected int GetInitValue()
+        {
+            int value = 0;
+            if (GetValue == null)
+                value = 0;
+            else
+                value = GetValue();
+            return value;
+        }
+
+        public void CancelSettings()
+        {
+            lastVal = GetInitValue();
+            segmentedControl.SelectCellWithNumber(lastVal);
+        }
+
+        protected override void GetInitValues(out int idx, out int numberOfElements)
+        {
+            numberOfElements = segmentedControl.dataSource.NumberOfCells();
+            idx = GetValue();
+            if (idx == -1)
+                idx = 0;
+        }
+
+        protected override void ApplyValue(int idx)
+        {
+            lastVal = idx;
+            ApplySettings();
+        }
+
+        protected override string TextForValue(int idx)
+        {
+            return "";
         }
     }
 }

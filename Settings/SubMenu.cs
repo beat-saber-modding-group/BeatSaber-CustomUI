@@ -1,6 +1,7 @@
 ﻿using CustomUI.BeatSaber;
 using CustomUI.UIElements;
 using CustomUI.Utilities;
+using HMUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,28 @@ namespace CustomUI.Settings
         public StringViewController AddString(string name, string hintText = null)
         {
             var view = AddStringSetting<StringViewController>(name, hintText);
+            return view;
+        }
+
+        public SegmentedControlViewController AddTextSegments(string name, string hintText, string[] texts)
+        {
+            var view = AddTextSegmentsSetting<SegmentedControlViewController>(name, hintText, texts);
+            return view;
+        }
+        public SegmentedControlViewController AddTextSegments(string name, string[] texts)
+        {
+            var view = AddTextSegmentsSetting<SegmentedControlViewController>(name, texts);
+            return view;
+        }
+
+        public SegmentedControlViewController AddIconSegments(string name, string hintText, IconSegmentedControl.DataItem[] icons)
+        {
+            var view = AddIconSegmentsSetting<SegmentedControlViewController>(name, hintText, icons);
+            return view;
+        }
+        public SegmentedControlViewController AddIconSegments(string name, IconSegmentedControl.DataItem[] icons)
+        {
+            var view = AddIconSegmentsSetting<SegmentedControlViewController>(name, icons);
             return view;
         }
 
@@ -241,6 +264,7 @@ namespace CustomUI.Settings
             AddHooks(newSliderSettingsController);
             return newSliderSettingsController;
         }
+
         public T AddColorPickerSetting<T>(string name, Color color, out ColorPickerPreviewClickable clickablePreview) where T : MonoBehaviour
         {
             return AddColorPickerSetting<T>(name, "", color, out clickablePreview);
@@ -275,6 +299,72 @@ namespace CustomUI.Settings
             viewController?.AddSubmenuOption(newSettingsObject);
             AddHooks(newColorPickerSettingsController);
             return newColorPickerSettingsController;
+        }
+
+        public T AddTextSegmentsSetting<T>(string name, string[] texts) where T : SegmentedControlViewController
+        {
+            return AddTextSegmentsSetting<T>(name, "", texts);
+        }
+        public T AddTextSegmentsSetting<T>(string name, string hintText, string[] texts) where T : SegmentedControlViewController
+        {
+            var volumeSettings = GetVolumeSettings();
+            GameObject newSettingsObject = MonoBehaviour.Instantiate(volumeSettings.gameObject, transform);
+            newSettingsObject.name = name;
+
+            ListSettingsController volume = newSettingsObject.GetComponent<ListSettingsController>();
+            T newTextSegmentsSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(ListSettingsController), typeof(T), newSettingsObject);
+            MonoBehaviour.DestroyImmediate(volume);
+
+            GameObject.Destroy(newSettingsObject.transform.Find("Value").Find("DecButton").gameObject);
+            GameObject.Destroy(newSettingsObject.transform.Find("Value").Find("ValueText").gameObject);
+            GameObject.Destroy(newSettingsObject.transform.Find("Value").Find("IncButton").gameObject);
+
+            TextSegmentedControl segmentedControl = BeatSaberUI.CreateTextSegmentedControl(newSettingsObject.transform.Find("Value") as RectTransform, new Vector2(0f, 0f), new Vector2(40f, 7f));
+
+            newTextSegmentsSettingsController.segmentedControl = segmentedControl;
+            segmentedControl.SetTexts(texts);
+
+            var tmpText = newSettingsObject.GetComponentInChildren<TMP_Text>();
+            tmpText.text = name;
+            if (hintText != String.Empty)
+                BeatSaberUI.AddHintText(tmpText.rectTransform, hintText);
+
+            viewController?.AddSubmenuOption(newSettingsObject);
+            AddHooks(newTextSegmentsSettingsController);
+            return newTextSegmentsSettingsController;
+        }
+
+        public T AddIconSegmentsSetting<T>(string name, IconSegmentedControl.DataItem[] icons) where T : SegmentedControlViewController
+        {
+            return AddIconSegmentsSetting<T>(name, "", icons);
+        }
+        public T AddIconSegmentsSetting<T>(string name, string hintText, IconSegmentedControl.DataItem[] icons) where T : SegmentedControlViewController
+        {
+            var volumeSettings = GetVolumeSettings();
+            GameObject newSettingsObject = MonoBehaviour.Instantiate(volumeSettings.gameObject, transform);
+            newSettingsObject.name = name;
+
+            ListSettingsController volume = newSettingsObject.GetComponent<ListSettingsController>();
+            T newTextSegmentsSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(ListSettingsController), typeof(T), newSettingsObject);
+            MonoBehaviour.DestroyImmediate(volume);
+
+            GameObject.Destroy(newSettingsObject.transform.Find("Value").Find("DecButton").gameObject);
+            GameObject.Destroy(newSettingsObject.transform.Find("Value").Find("ValueText").gameObject);
+            GameObject.Destroy(newSettingsObject.transform.Find("Value").Find("IncButton").gameObject);
+
+            IconSegmentedControl segmentedControl = BeatSaberUI.CreateIconSegmentedControl(newSettingsObject.transform.Find("Value") as RectTransform, new Vector2(0f, 0f), new Vector2(40f, 7f));
+
+            newTextSegmentsSettingsController.segmentedControl = segmentedControl;
+            segmentedControl.SetData(icons);
+
+            var tmpText = newSettingsObject.GetComponentInChildren<TMP_Text>();
+            tmpText.text = name;
+            if (hintText != String.Empty)
+                BeatSaberUI.AddHintText(tmpText.rectTransform, hintText);
+
+            viewController?.AddSubmenuOption(newSettingsObject);
+            AddHooks(newTextSegmentsSettingsController);
+            return newTextSegmentsSettingsController;
         }
 
         public SubMenu AddSubMenu(string text, string hintText, SubMenu subMenu)
