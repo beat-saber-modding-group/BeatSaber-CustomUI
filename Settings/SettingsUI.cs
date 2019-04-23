@@ -176,6 +176,7 @@ namespace CustomUI.Settings
             }
         }
 
+
         public static SubMenu CreateSubMenu(string name)
         {
             return CreateSubMenu(name, true);

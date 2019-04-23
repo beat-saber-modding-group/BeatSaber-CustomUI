@@ -1,10 +1,13 @@
 ﻿{
   "$schema": "https://raw.githubusercontent.com/nike4613/BSIPA-MetadataFileSchema/master/Schema.json",
   "author": "Various Modders",
-  "description": "A library to provide easier access to Beat Saber's UI system.\n\nThanks to <b>brian</b>, <b>Shoko84</b>, <b>monkeymanboy</b>, <b>Rolo</b>, <b>andruzzzhka</b>, <b>PlasmaPower</b>, and <b>Megalon</b>.",
+  "description": "A library to provide easier access to Beat Saber's UI system.\n\nThanks to <b>brian</b>, <b>Shoko84</b>, <b>Moon</b>, <b>monkeymanboy</b>, <b>Rolo</b>, <b>andruzzzhka</b>, <b>PlasmaPower</b>, and <b>Megalon</b>.",
   "features": [],
   "gameVersion": "0.13.2",
   "id": "CustomUI",
-  "name": "Beat Saber Custom UI",
-  "version": "1.5.4"
+  "name": "Custom UI",
+  "version": "1.5.5",
+  "dependsOn": {
+    "Harmony": "^1.2.1"
+  }
 }

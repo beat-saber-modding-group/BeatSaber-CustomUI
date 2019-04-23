@@ -9,6 +9,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using CustomUI.Utilities;
 
 namespace CustomUI
 {
@@ -40,6 +41,8 @@ namespace CustomUI
 
             _harmonyInstance = HarmonyInstance.Create("com.brian91292.beatsaber.customui");
             _harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
+
+            BSEvents.OnLoad();
         }
 
         public void OnApplicationQuit()
