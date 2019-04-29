@@ -145,11 +145,13 @@ namespace CustomUI.Settings
             RectTransform container = _tableCell.transform.Find("SettingContainer") as RectTransform;
             if (container == null)
             {
-                Plugin.Log("Null container!");
                 container = new GameObject("SettingContainer", typeof(RectTransform)).GetComponent<RectTransform>();
                 container.SetParent(_tableCell.transform);
                 container.sizeDelta = cellSize;
             }
+            else
+                foreach(Transform t in container)
+                    t.SetParent(null, false);
             
             (_submenuOptions[row].transform as RectTransform).anchoredPosition = new Vector2(_settingsViewControllerWidth/2, _rowHeight / 2);
             (_submenuOptions[row].transform as RectTransform).sizeDelta = cellSize;
