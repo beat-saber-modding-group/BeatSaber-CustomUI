@@ -317,7 +317,7 @@ namespace CustomUI.GameplaySettings
 
             //This magical nonsense is courtesy of Taz and his SettingsUI class
             ListSettingsController volume = gameObject.GetComponent<ListSettingsController>();
-            multiSelectController = (ListViewController)ReflectionUtil.CopyComponent(volume, typeof(ListSettingsController), typeof(ListViewController), gameObject);
+            multiSelectController = (ListViewController)ReflectionUtil.CopyComponent(volume, typeof(ListSettingsController), typeof(ListViewController), gameObject, false);
             UnityEngine.Object.DestroyImmediate(volume);
 
             multiSelectController.applyImmediately = true;

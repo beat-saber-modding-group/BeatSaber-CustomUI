@@ -123,7 +123,7 @@ namespace CustomUI.Settings
             (decBg.transform as RectTransform).localScale *= new Vector2(0.8f, 0.8f);
 
             ListSettingsController volume = newSettingsObject.GetComponent<ListSettingsController>();
-            T newListSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(ListSettingsController), typeof(T), newSettingsObject);
+            T newListSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(ListSettingsController), typeof(T), newSettingsObject, false);
             MonoBehaviour.DestroyImmediate(volume);
 
             var tmpText = newSettingsObject.GetComponentInChildren<TMP_Text>();
@@ -157,7 +157,7 @@ namespace CustomUI.Settings
             BeatSaberUI.AddHintText(valueText.rectTransform, hintText);
 
             ListSettingsController volume = newSettingsObject.GetComponent<ListSettingsController>();
-            T newListSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(ListSettingsController), typeof(T), newSettingsObject);
+            T newListSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(ListSettingsController), typeof(T), newSettingsObject, false);
             MonoBehaviour.DestroyImmediate(volume);
 
             var tmpText = newSettingsObject.GetComponentInChildren<TMP_Text>();
@@ -186,7 +186,7 @@ namespace CustomUI.Settings
             (decBg.transform as RectTransform).localScale *= new Vector2(0.8f, 0.8f);
 
             SwitchSettingsController volume = newSettingsObject.GetComponent<SwitchSettingsController>();
-            T newToggleSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(SwitchSettingsController), typeof(T), newSettingsObject);
+            T newToggleSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(SwitchSettingsController), typeof(T), newSettingsObject, false);
             MonoBehaviour.DestroyImmediate(volume);
 
             var tmpText = newSettingsObject.GetComponentInChildren<TMP_Text>();
