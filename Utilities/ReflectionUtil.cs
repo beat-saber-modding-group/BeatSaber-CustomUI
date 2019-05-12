@@ -149,9 +149,6 @@ namespace CustomUI.Utilities
             {
 
             }
-            
-            if (toggleEnabled)
-                copy.enabled = false;
 
             //Copy types of super classes as well as our class
             Type type = originalType;
