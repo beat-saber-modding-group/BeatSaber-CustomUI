@@ -137,6 +137,32 @@ namespace CustomUI.Utilities
         }
 
         //(Created by taz?) Copies a component to a destination object, keeping all its field values?
+          public static Behaviour CopyComponent(Behaviour original, Type originalType, Type overridingType, GameObject destination)
+        {
+            Behaviour copy = null;
+
+            try
+            {
+                copy = destination.AddComponent(overridingType) as Behaviour;
+            }
+            catch (Exception)
+            {
+
+            }
+            
+            if (toggleEnabled)
+                copy.enabled = false;
+
+            //Copy types of super classes as well as our class
+            Type type = originalType;
+            while (type != typeof(MonoBehaviour))
+            {
+                CopyForType(type, original, copy);
+                type = type.BaseType;
+            }
+
+            return copy;
+        }
         public static Behaviour CopyComponent(Behaviour original, Type originalType, Type overridingType, GameObject destination, bool toggleEnabled = true)
         {
             Behaviour copy = null;
