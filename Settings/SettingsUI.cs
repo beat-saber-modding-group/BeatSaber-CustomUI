@@ -54,15 +54,22 @@ namespace CustomUI.Settings
             DontDestroyOnLoad(this.gameObject);
 
             SceneManager.activeSceneChanged += SceneManagerOnActiveSceneChanged;
-            InitSettings();
+            BSEvents.menuSceneLoadedFresh += BSEvents_menuSceneLoadedFresh;
+            StartCoroutine(InitSettings());
 
         }
 
         void OnDestroy()
         {
             SceneManager.activeSceneChanged -= SceneManagerOnActiveSceneChanged;
+            BSEvents.menuSceneLoadedFresh -= BSEvents_menuSceneLoadedFresh;
         }
-        
+
+        private void BSEvents_menuSceneLoadedFresh()
+        {
+            StartCoroutine(InitSettings());
+        }
+
         public void SceneManagerOnActiveSceneChanged(Scene from, Scene to)
         {
             if (to.name == "EmptyTransition")
@@ -71,17 +78,8 @@ namespace CustomUI.Settings
                     Destroy(Instance.gameObject);
                 initialized = false;
             }
-            if(from.name == "MenuCore")
-            {
-                InitSettings();
-            }
         }
-        public void InitSettings()
-        {
-            StartCoroutine(DelayedInit());
-        }
-
-        IEnumerator DelayedInit()
+        public IEnumerator InitSettings()
         {
             yield return new WaitForSeconds(0.1f);
             //Init settings
@@ -98,6 +96,7 @@ namespace CustomUI.Settings
             }
             SubMenu.needsInit.Clear();
         }
+
         private void SetupUI()
         {
             if (initialized) return;
