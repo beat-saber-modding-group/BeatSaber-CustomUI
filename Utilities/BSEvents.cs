@@ -152,7 +152,7 @@ namespace CustomUI.Utilities
             scoreController.multiplierDidChangeEvent += delegate (int multiplier, float progress) { InvokeAll(multiplierDidChange, multiplier, progress); if (multiplier > 1 && progress < 0.1f) InvokeAll(multiplierDidIncrease, multiplier); };
             scoreController.comboDidChangeEvent += delegate (int combo) { InvokeAll(comboDidChange, combo); };
             scoreController.comboBreakingEventHappenedEvent += delegate () { InvokeAll(comboDidBreak); };
-            scoreController.scoreDidChangeEvent += delegate (int score) { InvokeAll(scoreDidChange); };
+            scoreController.scoreDidChangeEvent += delegate (int score, int scoreAfterModifier) { InvokeAll(scoreDidChange); };
 
             var saberCollisionManager = Resources.FindObjectsOfTypeAll<ObstacleSaberSparkleEffectManager>().FirstOrDefault();
             saberCollisionManager.sparkleEffectDidStartEvent += delegate (Saber.SaberType saber) { InvokeAll(sabersStartCollide, saber); };

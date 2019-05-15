@@ -457,7 +457,7 @@
         </member>
         <member name="T:IPA.Loader.PluginLoader.PluginMetadata">
             <summary>
-            A class which describes
+            A class which describes a loaded plugin.
             </summary>
         </member>
         <member name="P:IPA.Loader.PluginLoader.PluginMetadata.Assembly">
@@ -477,7 +477,7 @@
         </member>
         <member name="P:IPA.Loader.PluginLoader.PluginMetadata.Id">
             <summary>
-            The ModSaber ID of the plugin, or null if it doesn't have one.
+            The BeatMods ID of the plugin, or null if it doesn't have one.
             </summary>
         </member>
         <member name="P:IPA.Loader.PluginLoader.PluginMetadata.Version">
@@ -1492,6 +1492,21 @@
             <summary>
             Hashes stored are MD5
             </summary>
+        </member>
+        <member name="T:IPA.Updating.BeatMods.Updater.InstallFinish">
+            <summary>
+            This will still be called even if there was an error. Called after all three download/install attempts, or after a successful installation.
+            ALWAYS called.
+            </summary>
+            <param name="obj"></param>
+            <param name="didError"></param>
+        </member>
+        <member name="T:IPA.Updating.BeatMods.Updater.InstallFailed">
+            <summary>
+            This can be called multiple times
+            </summary>
+            <param name="obj"></param>
+            <param name="error"></param>
         </member>
     </members>
 </doc>

@@ -129,7 +129,7 @@ namespace CustomUI.BeatSaber
         
         public virtual float CellSize()
         {
-            return 10f;
+            return 8.5f;
         }
 
         public virtual int NumberOfCells()

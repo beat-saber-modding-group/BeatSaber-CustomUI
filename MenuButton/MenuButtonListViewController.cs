@@ -44,7 +44,7 @@ namespace CustomUI.MenuButton
                         horiz.childControlWidth = false;
                         horiz.childForceExpandWidth = false;
                         horiz.childAlignment = TextAnchor.MiddleCenter;
-                        (horiz.transform as RectTransform).anchoredPosition = new Vector2(0, 0);
+                        (horiz.transform as RectTransform).anchoredPosition = new Vector2(0, -3);
                         horiz.padding = new RectOffset(0, 0, 4, 4);
 
                         _modListTableCellInstance = modMenuListItem.gameObject.AddComponent<TableCell>();
@@ -95,7 +95,7 @@ namespace CustomUI.MenuButton
                     container.SetParent(_tableCell.transform);
                     container.sizeDelta = buttonSize;
 
-                    Button newButton = BeatSaberUI.CreateUIButton(container, "QuitButton", new Vector2(0,0), buttonSize ,menuButton.onClick, menuButton.text, menuButton.icon);
+                    Button newButton = BeatSaberUI.CreateUIButton(container, "BeatmapEditorButton", new Vector2(0,0), buttonSize ,menuButton.onClick, menuButton.text, menuButton.icon);
                     newButton.GetComponentInChildren<HorizontalLayoutGroup>().padding = new RectOffset(6, 8, 0, 0);
                     newButton.GetComponentInChildren<TextMeshProUGUI>().lineSpacing = -65;
                     newButton.name = menuButton.text;
@@ -103,9 +103,10 @@ namespace CustomUI.MenuButton
                         BeatSaberUI.AddHintText(newButton.transform as RectTransform, menuButton.hintText);
                     menuButton.buttons.Add(newButton);
                     newButton.interactable = menuButton.interactable;
+                    Destroy(newButton.transform.Find("Wrapper/Content/Icon").gameObject);
 
                     //  sub button
-                    var pinButton = BeatSaberUI.CreateUIButton(container, "QuitButton", new Vector2(-6,0), new Vector2(8,8), null, "", null);
+                    var pinButton = BeatSaberUI.CreateUIButton(container, "BeatmapEditorButton", new Vector2(-6,0), new Vector2(8,8), null, "", null);
 
                     if (_highlightedClip == null) _highlightedClip = pinButton.GetComponent<ButtonStaticAnimations>().GetPrivateField<AnimationClip>("_highlightedClip");
                     if (_normalClip == null) _normalClip = pinButton.GetComponent<ButtonStaticAnimations>().GetPrivateField<AnimationClip>("_normalClip");
@@ -116,6 +117,7 @@ namespace CustomUI.MenuButton
                     (pinButton.transform as RectTransform).anchoredPosition = new Vector2(-4, 0);
                     pinButton.GetComponentInChildren<HorizontalLayoutGroup>().padding = new RectOffset(0, 0, 0, 0);
                     pinButton.onClick.AddListener( () => { pinButtonPushed?.Invoke(menuButton); PinButtonPushEffect(pinButton, menuButton); });
+                    Destroy(pinButton.transform.Find("Wrapper/Content/Icon").gameObject);
                 }
             }
 
@@ -128,7 +130,7 @@ namespace CustomUI.MenuButton
             {
                 pinButton.SetButtonText("+");
                 pinButton.SetButtonTextSize(8);
-                pinButton.transform.Find("Wrapper/Stroke").gameObject.SetActive(true);
+                pinButton.transform.Find("Wrapper/Stroke").gameObject.SetActive(false);
                 (pinButton.transform as RectTransform).Rotate(0, 0, 45);
                 pinButton.GetComponent<ButtonStaticAnimations>()?.SetPrivateField("_normalClip", _highlightedClip);
                 pinButton.GetComponent<ButtonStaticAnimations>()?.SetPrivateField("_highlightedClip", _normalClip);

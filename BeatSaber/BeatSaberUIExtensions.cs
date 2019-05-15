@@ -115,9 +115,15 @@ namespace CustomUI.BeatSaber
             cell.GetPrivateField<TextMeshProUGUI>("_authorText").text = subtext;
         }
 
+        [Obsolete("0.13.3+ uses RawImages for table cells, which take Textures not Sprites.")]
         public static void SetIcon(this LevelListTableCell cell, Sprite icon)
         {
-            cell.GetPrivateField<UnityEngine.UI.Image>("_coverImage").sprite = icon;
+            SetIcon(cell, icon.texture);
+        }
+
+        public static void SetIcon(this LevelListTableCell cell, Texture icon)
+        {
+            cell.GetPrivateField<RawImage>("_coverRawImage").texture = icon;
         }
 
         public static CustomSlider CreateUISlider(this VRUIViewController parent, float min, float max, float increment, bool intValues, UnityAction<float> onValueChanged = null)

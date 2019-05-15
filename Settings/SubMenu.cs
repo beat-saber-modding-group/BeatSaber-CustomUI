@@ -117,6 +117,10 @@ namespace CustomUI.Settings
             GameObject newSettingsObject = MonoBehaviour.Instantiate(volumeSettings.gameObject, transform);
             newSettingsObject.name = name;
 
+            Polyglot.LocalizedTextMeshProUGUI localizer = newSettingsObject.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer != null)
+                UnityEngine.Object.Destroy(localizer);
+
             var incBg = newSettingsObject.transform.Find("Value").Find("IncButton").Find("BG").gameObject.GetComponent<Image>();
             (incBg.transform as RectTransform).localScale *= new Vector2(0.8f, 0.8f);
             var decBg = newSettingsObject.transform.Find("Value").Find("DecButton").Find("BG").gameObject.GetComponent<Image>();
@@ -145,6 +149,11 @@ namespace CustomUI.Settings
             var volumeSettings = GetVolumeSettings();
             GameObject newSettingsObject = MonoBehaviour.Instantiate(volumeSettings.gameObject, transform);
             newSettingsObject.name = name;
+
+            Polyglot.LocalizedTextMeshProUGUI localizer = newSettingsObject.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer != null)
+                UnityEngine.Object.Destroy(localizer);
+
             newSettingsObject.transform.Find("Value").gameObject.GetComponent<HorizontalLayoutGroup>().spacing += 2;
             newSettingsObject.transform.Find("Value").Find("DecButton").gameObject.SetActive(false);
             var bgIcon = newSettingsObject.transform.Find("Value").Find("IncButton").Find("BG").gameObject.GetComponent<Image>();
@@ -180,6 +189,10 @@ namespace CustomUI.Settings
             GameObject newSettingsObject = MonoBehaviour.Instantiate(volumeSettings.gameObject, transform);
             newSettingsObject.name = name;
 
+            Polyglot.LocalizedTextMeshProUGUI localizer = newSettingsObject.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer != null)
+                UnityEngine.Object.Destroy(localizer);
+
             var incBg = newSettingsObject.transform.Find("Value").Find("IncButton").Find("BG").gameObject.GetComponent<Image>();
             (incBg.transform as RectTransform).localScale *= new Vector2(0.8f, 0.8f);
             var decBg = newSettingsObject.transform.Find("Value").Find("DecButton").Find("BG").gameObject.GetComponent<Image>();
@@ -209,6 +222,10 @@ namespace CustomUI.Settings
             GameObject newSettingsObject = MonoBehaviour.Instantiate(volumeSettings.gameObject, transform);
             newSettingsObject.name = name;
 
+            Polyglot.LocalizedTextMeshProUGUI localizer = newSettingsObject.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer != null)
+                UnityEngine.Object.Destroy(localizer);
+
             var incBg = newSettingsObject.transform.Find("Value").Find("IncButton").Find("BG").gameObject.GetComponent<Image>();
             (incBg.transform as RectTransform).localScale *= new Vector2(0.8f, 0.8f);
             var decBg = newSettingsObject.transform.Find("Value").Find("DecButton").Find("BG").gameObject.GetComponent<Image>();
@@ -233,6 +250,10 @@ namespace CustomUI.Settings
             var volumeSettings = GetWindowSettings();
             GameObject newSettingsObject = MonoBehaviour.Instantiate(volumeSettings.gameObject, transform);
             newSettingsObject.name = name;
+
+            Polyglot.LocalizedTextMeshProUGUI localizer = newSettingsObject.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer != null)
+                UnityEngine.Object.Destroy(localizer);
 
             SwitchSettingsController volume = newSettingsObject.GetComponent<SwitchSettingsController>();
             T newSliderSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(IncDecSettingsController), typeof(T), newSettingsObject);
@@ -275,6 +296,10 @@ namespace CustomUI.Settings
             GameObject newSettingsObject = MonoBehaviour.Instantiate(volumeSettings.gameObject, transform);
             newSettingsObject.name = name;
 
+            Polyglot.LocalizedTextMeshProUGUI localizer = newSettingsObject.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer != null)
+                UnityEngine.Object.Destroy(localizer);
+
             SwitchSettingsController volume = newSettingsObject.GetComponent<SwitchSettingsController>();
             T newColorPickerSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(MonoBehaviour), typeof(T), newSettingsObject);
             MonoBehaviour.DestroyImmediate(volume);
@@ -311,6 +336,10 @@ namespace CustomUI.Settings
             GameObject newSettingsObject = MonoBehaviour.Instantiate(volumeSettings.gameObject, transform);
             newSettingsObject.name = name;
 
+            Polyglot.LocalizedTextMeshProUGUI localizer = newSettingsObject.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer != null)
+                UnityEngine.Object.Destroy(localizer);
+
             ListSettingsController volume = newSettingsObject.GetComponent<ListSettingsController>();
             T newTextSegmentsSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(ListSettingsController), typeof(T), newSettingsObject);
             MonoBehaviour.DestroyImmediate(volume);
@@ -343,6 +372,10 @@ namespace CustomUI.Settings
             var volumeSettings = GetVolumeSettings();
             GameObject newSettingsObject = MonoBehaviour.Instantiate(volumeSettings.gameObject, transform);
             newSettingsObject.name = name;
+
+            Polyglot.LocalizedTextMeshProUGUI localizer = newSettingsObject.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
+            if (localizer != null)
+                UnityEngine.Object.Destroy(localizer);
 
             ListSettingsController volume = newSettingsObject.GetComponent<ListSettingsController>();
             T newTextSegmentsSettingsController = (T)ReflectionUtil.CopyComponent(volume, typeof(ListSettingsController), typeof(T), newSettingsObject);
