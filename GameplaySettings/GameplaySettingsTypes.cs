@@ -252,7 +252,7 @@ namespace CustomUI.GameplaySettings
 
         private void InitializeConflict(GameplayModifierToggle toMod, GameplayModifierToggle conflict, bool recursive = true)
         {
-            string conflictingDisplayName = $" {conflict.gameplayModifier.modifierName} ";
+            string conflictingDisplayName = $"\uE069{conflict.gameplayModifier.modifierName}\uE069";
             if (!toMod.gameplayModifier.hintText.Contains(ConflictText))
                 toMod.gameplayModifier.SetPrivateField("_hintText", toMod.gameplayModifier.hintText + ConflictText);
 
@@ -334,10 +334,6 @@ namespace CustomUI.GameplaySettings
                 return "UNKNOWN";
             };
             //Initialize the controller, as if we had just opened the settings menu
-            Polyglot.LocalizedTextMeshProUGUI localizer = multiSelectController.GetComponentInChildren<Polyglot.LocalizedTextMeshProUGUI>();
-            if (localizer != null)
-                GameObject.Destroy(localizer);
-
             multiSelectController.Init();
             var value = multiSelectController.gameObject.transform.Find("Value");
             var valueText = value.Find("ValueText");
