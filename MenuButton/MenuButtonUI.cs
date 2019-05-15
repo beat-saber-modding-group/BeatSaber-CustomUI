@@ -20,7 +20,7 @@ namespace CustomUI.MenuButton
         const float RowSeparator = 9f;
 
         private RectTransform bottomPanel;
-        private RectTransform menuButtonsOriginal;
+        internal RectTransform menuButtonsOriginal;
         
         private RectTransform currentRow;
         private List<RectTransform> rows;
@@ -90,7 +90,7 @@ namespace CustomUI.MenuButton
                 if (Instance.bottomPanel == null) Instance.bottomPanel = GameObject.Find("MainMenuViewController/BottomPanel").transform as RectTransform;
                 if (Instance.menuButtonsOriginal == null) Instance.menuButtonsOriginal = Instance.bottomPanel.Find("Buttons") as RectTransform;
 
-                Button newButton = BeatSaberUI.CreateUIButton(Instance.menuButtonsOriginal as RectTransform, "QuitButton", () => Instance.PresentList(), "Mods", null);
+                Button newButton = BeatSaberUI.CreateUIButton(Instance.menuButtonsOriginal as RectTransform, "CreditsButton", () => Instance.PresentList(), "Mods", null);
                 Instance.menuButtonsOriginal.Find("QuitButton").SetAsLastSibling();
             }
         }
