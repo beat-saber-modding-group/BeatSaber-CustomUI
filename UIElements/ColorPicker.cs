@@ -91,21 +91,34 @@ namespace CustomUI.UIElements
             TextMeshProUGUI aText = BeatSaberUI.CreateText(colorContainer, "A", new Vector2(0, 0), new Vector2(0, 0));
             aText.rectTransform.position = _sliderA.Scrollbar.transform.TransformPoint(new Vector3(-34, 3.74f, 0));
 
+
+            var rowTransform = Instantiate(MenuButton.MenuButtonUI.Instance.menuButtonsOriginal, colorContainer);
+            rowTransform.anchorMin = Vector2.zero;
+            rowTransform.anchorMax = Vector2.one;
+            rowTransform.anchoredPosition = new Vector2(0f, -30f);
+            rowTransform.sizeDelta = new Vector2(0f, 10f);
+            Destroy(rowTransform.GetComponent<StartMiddleEndButtonsGroup>());
+
+            foreach (Transform child in rowTransform)
+            {
+                child.name = string.Empty;
+                Destroy(child.gameObject);
+            }
+
             // Ok button
-            _okButton = Instantiate(Resources.FindObjectsOfTypeAll<Button>().First(x => (x.name == "QuitButton")), colorContainer, false);
+            _okButton = Instantiate(Resources.FindObjectsOfTypeAll<Button>().First(x => (x.name == "CreditsButton")), rowTransform, false);
             _okButton.ToggleWordWrapping(false);
-            (_okButton.transform as RectTransform).anchoredPosition = new Vector2(40f, -30f);
             _okButton.SetButtonText("Ok");
             _okButton.onClick.RemoveAllListeners();
             _okButton.onClick.AddListener(delegate ()
             {
                 customMenu.Dismiss();
             });
+            _okButton.GetComponent<StartMiddleEndButtonBackgroundController>().SetMiddleSprite();
 
             // Cancel button
-            _cancelButton = Instantiate(Resources.FindObjectsOfTypeAll<Button>().First(x => (x.name == "QuitButton")), colorContainer, false);
+            _cancelButton = Instantiate(Resources.FindObjectsOfTypeAll<Button>().First(x => (x.name == "CreditsButton")), rowTransform, false);
             _cancelButton.ToggleWordWrapping(false);
-            (_cancelButton.transform as RectTransform).anchoredPosition = new Vector2(15f, -30f);
             _cancelButton.SetButtonText("Cancel");
             _cancelButton.onClick.RemoveAllListeners();
             _cancelButton.onClick.AddListener(delegate ()
@@ -113,6 +126,7 @@ namespace CustomUI.UIElements
                 SetPreviewColor(_originalColor);
                 customMenu.Dismiss();
             });
+            _cancelButton.GetComponent<StartMiddleEndButtonBackgroundController>().SetMiddleSprite();
 
             SetPreviewColor(color);
         }
