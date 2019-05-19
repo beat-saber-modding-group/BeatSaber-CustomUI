@@ -21,7 +21,7 @@ namespace CustomUI.Utilities
         public static event Action<StandardLevelDetailViewController, IDifficultyBeatmap> difficultySelected;
         public static event Action<BeatmapCharacteristicSegmentedControlController, BeatmapCharacteristicSO> characteristicSelected;
         public static event Action<LevelPacksViewController, IBeatmapLevelPack> levelPackSelected;
-        public static event Action<LevelPackLevelsViewController, IBeatmapLevel> levelSelected;
+        public static event Action<LevelPackLevelsViewController, IPreviewBeatmapLevel> levelSelected;
 
         // Game Events
         public static event Action songPaused;
