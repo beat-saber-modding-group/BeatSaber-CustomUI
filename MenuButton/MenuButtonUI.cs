@@ -137,11 +137,10 @@ namespace CustomUI.MenuButton
             {
                 AddRow();
             }
-
             Button newButton = BeatSaberUI.CreateUIButton(currentRow, "QuitButton", button.onClick, button.text, button.icon);
-            newButton.GetComponentInChildren<HorizontalLayoutGroup>().padding = new RectOffset(6, 6, 0, 0);
+         //   newButton.GetComponentInChildren<HorizontalLayoutGroup>()?.padding = new RectOffset(6, 6, 0, 0);
             newButton.name = button.text;
-            if (button.hintText != String.Empty)
+            if (!string.IsNullOrWhiteSpace(button.hintText))
                 BeatSaberUI.AddHintText(newButton.transform as RectTransform, button.hintText);
             button.buttons.Add(newButton);
             newButton.interactable = button.interactable;
