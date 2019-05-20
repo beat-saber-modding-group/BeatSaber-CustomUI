@@ -3,7 +3,7 @@
   "author": "Various Modders",
   "description": "A library to provide easier access to Beat Saber's UI system.\n\nThanks to **brian**, **Kyle 1413**, **DaNike**, **Shoko84**, **Moon**, **monkeymanboy**, **Rolo**, **andruzzzhka**, **PlasmaPower**, and **Megalon**.",
   "features": [],
-  "gameVersion": "0.13.3",
+  "gameVersion": "1.0.0",
   "id": "CustomUI",
   "name": "Custom UI",
   "version": "1.5.8",
