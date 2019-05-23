@@ -4,11 +4,9 @@ using HMUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
-using VRUI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace CustomUI.MenuButton
 {
@@ -44,7 +42,7 @@ namespace CustomUI.MenuButton
                         horiz.childControlWidth = false;
                         horiz.childForceExpandWidth = false;
                         horiz.childAlignment = TextAnchor.MiddleCenter;
-                        (horiz.transform as RectTransform).anchoredPosition = new Vector2(0, -3);
+                        (horiz.transform as RectTransform).anchoredPosition = new Vector2(0, 0);
                         horiz.padding = new RectOffset(0, 0, 4, 4);
 
                         _modListTableCellInstance = modMenuListItem.gameObject.AddComponent<TableCell>();
@@ -95,26 +93,23 @@ namespace CustomUI.MenuButton
                     container.SetParent(_tableCell.transform);
                     container.sizeDelta = buttonSize;
 
-                    Button newButton = BeatSaberUI.CreateUIButton(container, "BeatmapEditorButton", new Vector2(0,0), buttonSize ,menuButton.onClick, menuButton.text, menuButton.icon);
+                    Button newButton = BeatSaberUI.CreateUIButton(container, "BeatmapEditorButton", new Vector2(0, -4f), buttonSize ,menuButton.onClick, menuButton.text, menuButton.icon);
                     newButton.GetComponentInChildren<HorizontalLayoutGroup>().padding = new RectOffset(6, 8, 0, 0);
                     newButton.GetComponentInChildren<TextMeshProUGUI>().lineSpacing = -65;
                     newButton.name = menuButton.text;
-                    if (menuButton.hintText != String.Empty)
+                    if (menuButton.hintText != string.Empty)
                         BeatSaberUI.AddHintText(newButton.transform as RectTransform, menuButton.hintText);
                     menuButton.buttons.Add(newButton);
                     newButton.interactable = menuButton.interactable;
                     Destroy(newButton.transform.Find("Wrapper/Content/Icon").gameObject);
 
                     //  sub button
-                    var pinButton = BeatSaberUI.CreateUIButton(container, "BeatmapEditorButton", new Vector2(-6,0), new Vector2(8,8), null, "", null);
+                    var pinButton = BeatSaberUI.CreateUIButton(container, "BeatmapEditorButton", new Vector2(0f, 0f), new Vector2(8,8), null, "", null);
 
                     if (_highlightedClip == null) _highlightedClip = pinButton.GetComponent<ButtonStaticAnimations>().GetPrivateField<AnimationClip>("_highlightedClip");
                     if (_normalClip == null) _normalClip = pinButton.GetComponent<ButtonStaticAnimations>().GetPrivateField<AnimationClip>("_normalClip");
 
                     PinButtonPushEffect(pinButton, menuButton);
-                    (pinButton.transform as RectTransform).anchorMin = new Vector2(1, 0.5f);
-                    (pinButton.transform as RectTransform).anchorMax = new Vector2(1, 0.5f);
-                    (pinButton.transform as RectTransform).anchoredPosition = new Vector2(-4, 0);
                     pinButton.GetComponentInChildren<HorizontalLayoutGroup>().padding = new RectOffset(0, 0, 0, 0);
                     pinButton.onClick.AddListener( () => { pinButtonPushed?.Invoke(menuButton); PinButtonPushEffect(pinButton, menuButton); });
                     Destroy(pinButton.transform.Find("Wrapper/Content/Icon").gameObject);
@@ -132,6 +127,8 @@ namespace CustomUI.MenuButton
                 pinButton.SetButtonTextSize(8);
                 pinButton.transform.Find("Wrapper/Stroke").gameObject.SetActive(false);
                 (pinButton.transform as RectTransform).Rotate(0, 0, 45);
+                (pinButton.transform as RectTransform).anchorMin = new Vector2(.94f, 0.14f);
+                (pinButton.transform as RectTransform).anchorMax = new Vector2(.94f, 0.14f);
                 pinButton.GetComponent<ButtonStaticAnimations>()?.SetPrivateField("_normalClip", _highlightedClip);
                 pinButton.GetComponent<ButtonStaticAnimations>()?.SetPrivateField("_highlightedClip", _normalClip);
             } else
@@ -140,6 +137,8 @@ namespace CustomUI.MenuButton
                 pinButton.SetButtonTextSize(6);
                 pinButton.transform.Find("Wrapper/Stroke").gameObject.SetActive(false);
                 (pinButton.transform as RectTransform).localRotation = Quaternion.identity;
+                (pinButton.transform as RectTransform).anchorMin = new Vector2(.87f, 0f);
+                (pinButton.transform as RectTransform).anchorMax = new Vector2(.87f, 0f);
                 pinButton.GetComponent<ButtonStaticAnimations>()?.SetPrivateField("_normalClip", _normalClip);
                 pinButton.GetComponent<ButtonStaticAnimations>()?.SetPrivateField("_highlightedClip", _highlightedClip);
             }
