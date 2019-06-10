@@ -71,9 +71,9 @@ namespace CustomUI.GameplaySettings
             {
                 case GameplaySettingsPanels.ModifiersRight:
                 case GameplaySettingsPanels.ModifiersLeft:
+                case GameplaySettingsPanels.PlayerSettingsRight:
                     numDefaultOptions = 5;
                     break;
-                case GameplaySettingsPanels.PlayerSettingsRight:
                 case GameplaySettingsPanels.PlayerSettingsLeft:
                     numDefaultOptions = 4;
                     break;
@@ -126,7 +126,7 @@ namespace CustomUI.GameplaySettings
                     option2 = container.Find("AdvancedHUD");
                     option3 = container.Find("SoundFX");
                     option4 = container.Find("ReduceDebris");
-                    option5 = null;
+                    option5 = container.Find("AutoRestart");
                     break;
                 case GameplaySettingsPanels.PlayerSettingsLeft:
                     option1 = container.Find("LeftHanded");

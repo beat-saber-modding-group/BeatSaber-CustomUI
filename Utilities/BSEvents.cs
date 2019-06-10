@@ -174,15 +174,21 @@ namespace CustomUI.Utilities
                         InvokeAll(levelCleared, data, results);
                         break;
                     case LevelCompletionResults.LevelEndStateType.Failed:
-                        InvokeAll(levelFailed, data, results);
-                        break;
-                    case LevelCompletionResults.LevelEndStateType.Quit:
-                        InvokeAll(levelQuit, data, results);
-                        break;
-                    case LevelCompletionResults.LevelEndStateType.Restart:
-                        InvokeAll(levelRestarted, data, results);
+                        if (results.levelEndAction == LevelCompletionResults.LevelEndAction.Restart)
+                            InvokeAll(levelRestarted, data, results);
+                        else
+                            InvokeAll(levelFailed, data, results);
                         break;
                 };
+                switch (results.levelEndAction)
+                {
+                    case LevelCompletionResults.LevelEndAction.Quit:
+                        InvokeAll(levelQuit, data, results);
+                        break;
+                    case LevelCompletionResults.LevelEndAction.Restart:
+                        InvokeAll(levelRestarted, data, results);
+                        break;
+                }
             };
 
             InvokeAll(gameSceneLoaded);
