@@ -75,7 +75,7 @@ namespace CustomUI.GameplaySettings
                     numDefaultOptions = 5;
                     break;
                 case GameplaySettingsPanels.PlayerSettingsLeft:
-                    numDefaultOptions = 4;
+                    numDefaultOptions = 5;
                     break;
             }
         }

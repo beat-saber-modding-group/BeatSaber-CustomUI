@@ -135,11 +135,11 @@ namespace CustomUI.GameplaySettings
 
         public void RefreshScrollButtons()
         {
-            int index = (_pageIndex) * 4;
+            int index = (_pageIndex) * 5;
             if (_currentSubmenu == "MainMenu")
-                index -= 4;
+                index -= 5;
 
-            if (index + 4 < _customMenus[_currentSubmenu].options.Count) _pageDownButton.gameObject.SetActive(true);
+            if (index + 5 < _customMenus[_currentSubmenu].options.Count) _pageDownButton.gameObject.SetActive(true);
             else _pageDownButton.gameObject.SetActive(false);
             
             if (_pageIndex <= 0) _pageUpButton.gameObject.SetActive(false);
@@ -170,7 +170,7 @@ namespace CustomUI.GameplaySettings
             if (submenuName == "MainMenu") return;
             if (_backButton == null)
                 _backButton = UIUtilities.LoadSpriteFromResources("CustomUI.Resources.Back Button.png");
-            CreateSubmenuOption(panel, "Back", submenuName, "!PREVIOUSMENU!", String.Empty, _backButton);
+            CreateSubmenuOption(panel, "Back", submenuName, "!PREVIOUSMENU!", "Go Back to Previous Menu", _backButton);
         }
 
         public static MultiSelectOption CreateListOption(GameplaySettingsPanels panel, string optionName, string submenuName, string hintText = "")
