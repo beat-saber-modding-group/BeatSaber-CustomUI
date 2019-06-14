@@ -19,7 +19,7 @@ namespace CustomUI.MenuButton
         const int ButtonsPerRow = 4;
         const float RowSeparator = 9f;
 
-        private RectTransform bottomPanel;
+        internal RectTransform bottomPanel;
         internal RectTransform menuButtonsOriginal;
         
         private RectTransform currentRow;

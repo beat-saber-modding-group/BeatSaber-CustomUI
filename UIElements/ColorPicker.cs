@@ -26,7 +26,6 @@ namespace CustomUI.UIElements
             RectTransform colorContainer = new GameObject("ColorPickerContainer", typeof(RectTransform)).transform as RectTransform;
             colorContainer.SetParent(customMenu.mainViewController.rectTransform, false);
             colorContainer.sizeDelta = new Vector2(60f, 0f);
-
             //ColorPickerPreview initialization
             ColorPickerPreview = new GameObject("ColorPickerPreview").AddComponent<ColorPickerPreview>();
             if (ColorPickerPreview != null)
@@ -38,7 +37,6 @@ namespace CustomUI.UIElements
                 previewText.enableWordWrapping = false;
                 previewText.rectTransform.position = ColorPickerPreview.transform.TransformPoint(new Vector3(-previewText.preferredWidth * 1.5f - 2f, 2.5f, 0));
             }
-
             //ColorPickerCore initialization
             ColorPickerCore = new GameObject("ColorPickerCore").AddComponent<ColorPickerCore>();
             if (ColorPickerCore != null)
@@ -47,66 +45,71 @@ namespace CustomUI.UIElements
                 ColorPickerCore.Initialize(SetPreviewColor);
                 ColorPickerCore.transform.SetParent(transform, false);
                 (ColorPickerCore.transform as RectTransform).sizeDelta = new Vector2(60, 60);
-                (ColorPickerCore.transform as RectTransform).localPosition = new Vector3(0, 15f);
+                (ColorPickerCore.transform as RectTransform).localPosition = new Vector3(-50f, 15f);
             }
 
             var previewImg = ColorPickerPreview.ImagePreview;
-            _sliderR = BeatSaberUI.CreateUISlider(transform, 0, 3000, 1, true, (val) =>
+            _sliderR = BeatSaberUI.CreateUISlider(transform, 0, 1000, 1, true, (val) =>
             {
                 previewImg.color = new Color(val / 255f, _currentColor.g, _currentColor.b, _currentColor.a);
                 _currentColor = previewImg.color;
             });
-            (_sliderR.Scrollbar.transform as RectTransform).sizeDelta = new Vector2(60f, 4.5f);
+            (_sliderR.Scrollbar.transform as RectTransform).sizeDelta = new Vector2(100f, 8f);
             (_sliderR.Scrollbar.transform as RectTransform).localPosition = new Vector3(70f, 28, 0);
+            (_sliderR.Scrollbar.transform as RectTransform).anchoredPosition = new Vector2(60f, 35f);
             TextMeshProUGUI rText = BeatSaberUI.CreateText(colorContainer, "R", new Vector2(0, 0), new Vector2(0, 0));
-            rText.rectTransform.position = _sliderR.Scrollbar.transform.TransformPoint(new Vector3(-34, 3.74f, 0));
-
-            _sliderG = BeatSaberUI.CreateUISlider(transform, 0, 3000, 1, true, (val) =>
+            rText.rectTransform.position = _sliderR.Scrollbar.transform.TransformPoint(new Vector3(-55, 3.74f, 0));
+            _sliderG = BeatSaberUI.CreateUISlider(transform, 0, 1000, 1, true, (val) =>
             {
                 previewImg.color = new Color(_currentColor.r, val / 255f, _currentColor.b, _currentColor.a);
                 _currentColor = previewImg.color;
             });
-            (_sliderG.Scrollbar.transform as RectTransform).sizeDelta = new Vector2(60f, 4.5f);
+            (_sliderG.Scrollbar.transform as RectTransform).sizeDelta = new Vector2(100f, 8f);
             (_sliderG.Scrollbar.transform as RectTransform).localPosition = new Vector3(70f, 20, 0);
+            (_sliderG.Scrollbar.transform as RectTransform).anchoredPosition = new Vector2(60f, 24f);
             TextMeshProUGUI gText = BeatSaberUI.CreateText(colorContainer, "G", new Vector2(0, 0), new Vector2(0, 0));
-            gText.rectTransform.position = _sliderG.Scrollbar.transform.TransformPoint(new Vector3(-34, 3.74f, 0));
+            gText.rectTransform.position = _sliderG.Scrollbar.transform.TransformPoint(new Vector3(-55, 3.74f, 0));
 
-            _sliderB = BeatSaberUI.CreateUISlider(transform, 0, 3000, 1, true, (val) =>
+            _sliderB = BeatSaberUI.CreateUISlider(transform, 0, 1000, 1, true, (val) =>
             {
                 previewImg.color = new Color(_currentColor.r, _currentColor.g, val / 255f, _currentColor.a);
                 _currentColor = previewImg.color;
             }); 
-            (_sliderB.Scrollbar.transform as RectTransform).sizeDelta = new Vector2(60f, 4.5f);
+            (_sliderB.Scrollbar.transform as RectTransform).sizeDelta = new Vector2(100f, 8f);
             (_sliderB.Scrollbar.transform as RectTransform).localPosition = new Vector3(70f, 12, 0);
+            (_sliderB.Scrollbar.transform as RectTransform).anchoredPosition = new Vector2(60f, 12f);
             TextMeshProUGUI bText = BeatSaberUI.CreateText(colorContainer, "B", new Vector2(0, 0), new Vector2(0, 0));
-            bText.rectTransform.position = _sliderB.Scrollbar.transform.TransformPoint(new Vector3(-34, 3.74f, 0));
-
+            bText.rectTransform.position = _sliderB.Scrollbar.transform.TransformPoint(new Vector3(-55, 3.74f, 0));
             _sliderA = BeatSaberUI.CreateUISlider(transform, 0, 255, 1, true, (val) =>
             {
                 previewImg.color = new Color(_currentColor.r, _currentColor.g, _currentColor.b, val / 255f);
                 _currentColor = previewImg.color;
             });
-            (_sliderA.Scrollbar.transform as RectTransform).sizeDelta = new Vector2(60f, 4.5f);
+            (_sliderA.Scrollbar.transform as RectTransform).sizeDelta = new Vector2(100f, 8f);
             (_sliderA.Scrollbar.transform as RectTransform).localPosition = new Vector3(70f, 4, 0);
+            (_sliderA.Scrollbar.transform as RectTransform).anchoredPosition = new Vector2(60f, 0f);
             TextMeshProUGUI aText = BeatSaberUI.CreateText(colorContainer, "A", new Vector2(0, 0), new Vector2(0, 0));
-            aText.rectTransform.position = _sliderA.Scrollbar.transform.TransformPoint(new Vector3(-34, 3.74f, 0));
+            aText.rectTransform.position = _sliderA.Scrollbar.transform.TransformPoint(new Vector3(-55, 3.74f, 0));
+       //     if (MenuButton.MenuButtonUI.Instance.bottomPanel == null) MenuButton.MenuButtonUI.Instance.bottomPanel = GameObject.Find("MainMenuViewController/BottomPanel")?.transform as RectTransform;
+       //     if (MenuButton.MenuButtonUI.Instance.menuButtonsOriginal == null) MenuButton.MenuButtonUI.Instance.menuButtonsOriginal = MenuButton.MenuButtonUI.Instance.bottomPanel.Find("Buttons") as RectTransform;
 
-
+            /*
             var rowTransform = Instantiate(MenuButton.MenuButtonUI.Instance.menuButtonsOriginal, colorContainer);
             rowTransform.anchorMin = Vector2.zero;
             rowTransform.anchorMax = Vector2.one;
             rowTransform.anchoredPosition = new Vector2(0f, -30f);
             rowTransform.sizeDelta = new Vector2(0f, 10f);
             Destroy(rowTransform.GetComponent<StartMiddleEndButtonsGroup>());
-
+            Console.WriteLine("1");
             foreach (Transform child in rowTransform)
             {
                 child.name = string.Empty;
                 Destroy(child.gameObject);
             }
-
+            */
             // Ok button
-            _okButton = Instantiate(Resources.FindObjectsOfTypeAll<Button>().First(x => (x.name == "CreditsButton")), rowTransform, false);
+            _okButton = BeatSaberUI.CreateUIButton(colorContainer, "CreditsButton", new Vector2(-25f,-30f), new Vector2(30f, 8f));
+            //Instantiate(Resources.FindObjectsOfTypeAll<Button>().First(x => (x.name == "CreditsButton")), colorContainer, false);
             _okButton.ToggleWordWrapping(false);
             _okButton.SetButtonText("Ok");
             _okButton.onClick.RemoveAllListeners();
@@ -115,9 +118,9 @@ namespace CustomUI.UIElements
                 customMenu.Dismiss();
             });
             _okButton.GetComponent<StartMiddleEndButtonBackgroundController>().SetMiddleSprite();
-
             // Cancel button
-            _cancelButton = Instantiate(Resources.FindObjectsOfTypeAll<Button>().First(x => (x.name == "CreditsButton")), rowTransform, false);
+            _cancelButton = BeatSaberUI.CreateUIButton(colorContainer, "CreditsButton", new Vector2(25f, -30f), new Vector2(30f, 8f));
+                //Instantiate(Resources.FindObjectsOfTypeAll<Button>().First(x => (x.name == "CreditsButton")), colorContainer, false);
             _cancelButton.ToggleWordWrapping(false);
             _cancelButton.SetButtonText("Cancel");
             _cancelButton.onClick.RemoveAllListeners();
@@ -127,7 +130,6 @@ namespace CustomUI.UIElements
                 customMenu.Dismiss();
             });
             _cancelButton.GetComponent<StartMiddleEndButtonBackgroundController>().SetMiddleSprite();
-
             SetPreviewColor(color);
         }
         
