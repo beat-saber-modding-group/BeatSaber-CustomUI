@@ -209,6 +209,8 @@ namespace CustomUI.MenuButton
                 child.name = String.Empty;
                 Destroy(child.gameObject);
             }
+            newRow.anchorMin = new Vector3(-0.03f, 0.175f, 0);
+            newRow.anchorMax = new Vector3(1.03f, 0.1f, 0);
             newRow.anchoredPosition += Vector2.up * RowSeparator * rows.Count;
         }
 
